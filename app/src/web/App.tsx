@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { Terminal, Server } from 'lucide-react';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from '../contexts/ThemeContext';
 import { 
   listAgents, 
   getAgentCode,
@@ -30,6 +29,7 @@ import CommunityTab from '@components/CommunityTab';
 import GetStarted from '@components/GetStarted';
 import JupyterServerModal from '@components/JupyterServerModal';
 import { generateAgentFromSimpleConfig } from '@utils/agentTemplateManager';
+import { themeManager } from '@utils/theme';
 import SimpleCreatorModal from '@components/EditAgent/SimpleCreatorModal';
 import ConversationalGeneratorModal from '@components/ConversationalGeneratorModal';
 import RecordingsViewer from '@components/RecordingsViewer';
@@ -387,13 +387,11 @@ function AppContent() {
   useEffect(() => {
     console.log('Observer App: Starting initialization...');
     Logger.info('APP', 'Application starting');
-    fetchAgents();
     
-    if (isAuthenticated) {
-      Logger.info('AUTH', `User authenticated: ${user?.name || user?.email || 'Unknown user'}`);
-    } else if (!isLoading) {
-      Logger.info('AUTH', 'User not authenticated');
-    }
+    // Initialize theme manager
+    themeManager.getTheme();
+    
+    fetchAgents();
     
     const handleWindowError = (event: ErrorEvent) => {
       Logger.error('APP', `Uncaught error: ${event.message}`, {
@@ -413,6 +411,15 @@ function AppContent() {
       window.removeEventListener('error', handleWindowError);
       clearTimeout(timer);
     };
+  }, []); // Remove dependencies to prevent repeated calls
+  
+  // Separate effect for auth logging that doesn't trigger fetchAgents
+  useEffect(() => {
+    if (isAuthenticated) {
+      Logger.info('AUTH', `User authenticated: ${user?.name || user?.email || 'Unknown user'}`);
+    } else if (!isLoading) {
+      Logger.info('AUTH', 'User not authenticated');
+    }
   }, [isAuthenticated, isLoading, user]);
   
   useEffect(() => {
@@ -431,20 +438,17 @@ function AppContent() {
   // Show loading screen if app is still initializing
   if (isAppLoading || (isLoading && !isAuthDisabled)) {
     return (
-      <ThemeProvider>
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading Observer...</p>
-          </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading Observer...</p>
         </div>
-      </ThemeProvider>
+      </div>
     );
   }
 
   return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg">
       <style>
         {`
           @keyframes memory-flash {
@@ -702,7 +706,6 @@ function AppContent() {
         />
       )}
     </div>
-    </ThemeProvider>
   );
 }
 

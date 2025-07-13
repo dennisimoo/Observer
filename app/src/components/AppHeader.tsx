@@ -104,7 +104,14 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   };
 
   const fetchQuotaInfo = async () => {
-    if (!isUsingObServer || !isAuthenticated || serverStatus !== 'online') {
+    if (!isUsingObServer || serverStatus !== 'online') {
+      setQuotaInfo(null);
+      setIsSessionExpired(false);
+      return;
+    }
+
+    // If not authenticated, don't try to fetch quota or show session expired
+    if (!isAuthenticated) {
       setQuotaInfo(null);
       setIsSessionExpired(false);
       return;
@@ -113,7 +120,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
     try {
       setIsLoadingQuota(true);
       const token = await getToken();
-      if (!token) throw new Error("Authentication token not available.");
+      if (!token) {
+        setQuotaInfo(null);
+        setIsSessionExpired(false);
+        return;
+      }
 
       const headers = { 'Authorization': `Bearer ${token}` };
       const response = await fetch('https://api.observer-ai.com/quota', { headers });
