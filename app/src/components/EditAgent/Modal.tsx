@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
       onMouseDown={handleBackdropMouseDown}
     >
       <div
-        className={`relative bg-white rounded-lg shadow-xl ${className}`}
+        className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl ${className}`}
         // stop bubbling so clicks inside never reach the backdrop
         onMouseDown={(e) => e.stopPropagation()}
       >

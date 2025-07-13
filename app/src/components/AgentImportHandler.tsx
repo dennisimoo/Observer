@@ -24,12 +24,12 @@ const AgentImportHandler = ({
     <>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <button onClick={onRefresh} className="p-2 rounded-md hover:bg-gray-100" disabled={isRefreshing} title="Refresh agents">
-            <RotateCw className={`h-5 w-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+          <button onClick={onRefresh} className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" disabled={isRefreshing} title="Refresh agents">
+            <RotateCw className={`h-5 w-5 text-gray-600 dark:text-gray-300 ${isRefreshing ? 'animate-spin' : ''}`} />
           </button>
           {/* --- MODIFIED --- */}
           {/* Wrapped labels in spans that are hidden on mobile */}
-          <p className="text-sm font-medium">
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
             <span className="hidden sm:inline">Active: </span>
             {activeAgentCount} / <span className="hidden sm:inline">Total: </span>{agentCount}
           </p>

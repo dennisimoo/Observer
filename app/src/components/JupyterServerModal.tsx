@@ -88,8 +88,8 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
     >
         {/* Main Configuration Panel */}
         <div className="flex-1">
-          <div className="flex items-center justify-between px-6 py-4 border-b">
-            <h2 className="text-xl font-semibold text-gray-800 flex items-center">
+          <div className="flex items-center justify-between px-6 py-4 border-b dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
               <Server className="mr-2 text-blue-600" size={20} />
               Jupyter Server Configuration
             </h2>
@@ -110,43 +110,43 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
           </div>
 
           <div className="p-6 space-y-4">
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
               Configure your Jupyter server connection for Python code execution. These settings will be saved in your browser.
             </p>
             
             <div className="space-y-4">
               <div className="flex flex-col">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Host</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Host</label>
                 <input
                   type="text"
                   value={jupyterHost}
                   onChange={(e) => setJupyterHost(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="127.0.0.1"
                 />
               </div>
               
               <div className="flex flex-col">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Port</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Port</label>
                 <input
                   type="text"
                   value={jupyterPort}
                   onChange={(e) => setJupyterPort(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="8888"
                 />
               </div>
               
               <div className="flex flex-col">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Token</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Token</label>
                 <input
                   type="password"
                   value={jupyterToken}
                   onChange={(e) => setJupyterToken(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter Jupyter token"
                 />
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                   Find your token in Jupyter's terminal output when starting the server.
                 </p>
               </div>
@@ -154,16 +154,16 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
 
             {testOutput && (
               <div className={`mt-4 p-3 rounded text-sm font-mono ${
-                jupyterStatus === 'connected' ? 'bg-green-50 text-green-800' : 
-                jupyterStatus === 'error' ? 'bg-red-50 text-red-800' :
-                'bg-gray-50 text-gray-800'
+                jupyterStatus === 'connected' ? 'bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-300' : 
+                jupyterStatus === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-300' :
+                'bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
               }`}>
                 {testOutput}
               </div>
             )}
           </div>
 
-          <div className="bg-gray-50 px-6 py-4 flex justify-between rounded-b-lg">
+          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-between rounded-b-lg">
             {jupyterStatus === 'connected' && (
               <div className="flex items-center text-sm text-green-600">
                 <Check size={16} className="mr-1" />
@@ -208,9 +208,9 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
         
         {/* Tutorial Panel */}
         {showTutorial && (
-          <div className="w-80 border-l bg-gray-50">
-            <div className="p-4 border-b bg-gray-100">
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+          <div className="w-80 border-l border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white flex items-center">
                 <Terminal className="mr-2 text-blue-600" size={18} />
                 Jupyter Server Setup Guide
               </h3>
@@ -223,9 +223,9 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                     <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
                       1
                     </div>
-                    <h3 className="font-medium text-gray-900 text-sm">Install Jupyter Server</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Install Jupyter Server</h3>
                   </div>
-                  <div className="ml-7 bg-gray-100 p-1.5 rounded-md font-mono text-xs text-gray-700">
+                  <div className="ml-7 bg-gray-100 dark:bg-gray-600 p-1.5 rounded-md font-mono text-xs text-gray-700 dark:text-gray-200">
                     pip install jupyter-server
                   </div>
                 </div>
@@ -235,12 +235,12 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                     <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
                       2
                     </div>
-                    <h3 className="font-medium text-gray-900 text-sm">Start Jupyter Server</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Start Jupyter Server</h3>
                   </div>
-                  <div className="ml-7 bg-gray-100 p-1.5 rounded-md font-mono text-xs text-gray-700">
+                  <div className="ml-7 bg-gray-100 dark:bg-gray-600 p-1.5 rounded-md font-mono text-xs text-gray-700 dark:text-gray-200">
                     jupyter server
                   </div>
-                  <p className="text-xs text-gray-600 ml-7 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 ml-7 mt-1">
                     This will start the Jupyter server and display a token in the terminal output.
                   </p>
                 </div>
@@ -250,9 +250,9 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                     <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
                       3
                     </div>
-                    <h3 className="font-medium text-gray-900 text-sm">Find Your Token</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Find Your Token</h3>
                   </div>
-                  <p className="text-xs text-gray-600 ml-7">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 ml-7">
                     Look for a URL in terminal output like:
                   </p>
                   <div className="ml-7 bg-gray-100 p-1.5 rounded-md font-mono text-xs text-gray-700 break-all">
@@ -265,16 +265,16 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                     <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
                       4
                     </div>
-                    <h3 className="font-medium text-gray-900 text-sm">Enter Configuration</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Enter Configuration</h3>
                   </div>
                   <div className="ml-7 space-y-1">
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
                       • Host: 127.0.0.1 (or localhost)
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
                       • Port: 8888 (default port)
                     </p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
                       • Token: Copy from URL in step 3
                     </p>
                   </div>
@@ -285,16 +285,16 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                     <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
                       5
                     </div>
-                    <h3 className="font-medium text-gray-900 text-sm">Test Connection</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Test Connection</h3>
                   </div>
-                  <p className="text-xs text-gray-600 ml-7">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 ml-7">
                     Click "Test Connection" to verify your setup.
                   </p>
                 </div>
 
                 <div className="pt-2 border-t mt-4">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-gray-900 text-sm">Advanced Setup</h3>
+                    <h3 className="font-medium text-gray-900 dark:text-white text-sm">Advanced Setup</h3>
                   </div>
                   <a 
                     href="https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html" 
@@ -308,9 +308,9 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
                 </div>
 
                 <div className="pt-2">
-                  <div className="p-3 bg-blue-50 text-blue-700 rounded-lg text-xs">
-                    <p className="font-medium">Security Tips:</p>
-                    <ul className="list-disc ml-5 mt-1 space-y-0.5">
+                  <div className="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 rounded-lg text-xs">
+                    <p className="font-medium text-blue-800 dark:text-blue-100">Security Tips:</p>
+                    <ul className="list-disc ml-5 mt-1 space-y-0.5 text-blue-700 dark:text-blue-200">
                       <li>Set a strong token or password</li>
                       <li>Limit access to localhost unless remote access needed</li>
                       <li>Configure SSL for secure connections</li>
@@ -320,10 +320,10 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
               </div>
             </div>
             
-            <div className="p-4 border-t">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-600">
               <button
                 onClick={() => setShowTutorial(false)}
-                className="w-full px-3 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors flex items-center justify-center gap-1 font-medium text-sm"
+                className="w-full px-3 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors flex items-center justify-center gap-1 font-medium text-sm"
               >
                 Close Tutorial
               </button>

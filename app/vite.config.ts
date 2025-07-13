@@ -4,6 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
 
 export default defineConfig({
+  base: '/',
   plugins: [
     react(),
     //visualizer({
@@ -15,6 +16,10 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', 
     port: 3001, // Different from desktop and website
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 8080,
   },
   resolve: {
     alias: {

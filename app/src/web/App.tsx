@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Terminal, Server } from 'lucide-react';
 import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '../contexts/ThemeContext';
 import { 
   listAgents, 
   getAgentCode,
@@ -42,6 +43,9 @@ function AppContent() {
   // Check our environment variable to see if Auth0 should be disabled
   const isAuthDisabled = import.meta.env.VITE_DISABLE_AUTH === 'true';
   Logger.debug('isAuthDisabled', `is it? lets see ${isAuthDisabled}`);
+  
+  // Add a loading state to help debug white screen issues
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   // If Auth0 is disabled, create a mock auth object for local development.
   // Otherwise, use the real useAuth0 hook.
@@ -55,7 +59,7 @@ function AppContent() {
   } = isAuthDisabled 
     ? {
         isAuthenticated: true,
-        user: { name: 'Local Dev User', email: 'dev@local.host' },
+        user: { name: 'Local Dev User', email: 'dev@localhost' },
         loginWithRedirect: () => Promise.resolve(),
         logout: () => {},
         isLoading: false,
@@ -381,6 +385,7 @@ function AppContent() {
   }, [memoryAgentId, isMemoryManagerOpen]);
 
   useEffect(() => {
+    console.log('Observer App: Starting initialization...');
     Logger.info('APP', 'Application starting');
     fetchAgents();
     
@@ -401,8 +406,12 @@ function AppContent() {
 
     window.addEventListener('error', handleWindowError);
     
+    // Set loading to false after initial setup
+    const timer = setTimeout(() => setIsAppLoading(false), 100);
+    
     return () => {
       window.removeEventListener('error', handleWindowError);
+      clearTimeout(timer);
     };
   }, [isAuthenticated, isLoading, user]);
   
@@ -419,8 +428,23 @@ function AppContent() {
   }, [serverStatus]);
 
 
+  // Show loading screen if app is still initializing
+  if (isAppLoading || (isLoading && !isAuthDisabled)) {
+    return (
+      <ThemeProvider>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600 dark:text-gray-400">Loading Observer...</p>
+          </div>
+        </div>
+      </ThemeProvider>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <ThemeProvider>
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-bg">
       <style>
         {`
           @keyframes memory-flash {
@@ -596,19 +620,19 @@ function AppContent() {
         />
       )}
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t z-30">
+      <footer className="fixed bottom-0 left-0 right-0 bg-white dark:bg-dark-surface border-t dark:border-dark-border z-30">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="flex space-x-3">
               <button 
-                className="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-md hover:bg-gray-200"
+                className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600"
                 onClick={() => setShowGlobalLogs(!showGlobalLogs)}
               >
-                <Terminal className="h-5 w-5" />
+                <Terminal className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               </button>
               
               <button 
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100"
+                className="flex items-center space-x-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40"
                 onClick={() => setIsJupyterModalOpen(true)}
               >
                 <Server className="h-5 w-5" />
@@ -616,13 +640,13 @@ function AppContent() {
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="text-xs text-gray-500">Support the Project!</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">Support the Project!</span>
               <div className="flex items-center space-x-2">
                 <a 
                   href="https://discord.gg/wnBb7ZQDUC"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-indigo-500 hover:text-indigo-600"
+                  className="text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300"
                   title="Join our Discord community"
                 >
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -634,7 +658,7 @@ function AppContent() {
                   href="https://x.com/AppObserverAI"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-800 hover:text-gray-900"
+                  className="text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
                   title="Follow us on X (Twitter)"
                 >
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -646,7 +670,7 @@ function AppContent() {
                   href="https://buymeacoffee.com/roy3838"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                   title="Support the project"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-4 w-4">
@@ -658,7 +682,7 @@ function AppContent() {
                   href="https://github.com/Roy3838/Observer"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                   title="GitHub Repository"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="h-4 w-4">
@@ -678,6 +702,7 @@ function AppContent() {
         />
       )}
     </div>
+    </ThemeProvider>
   );
 }
 

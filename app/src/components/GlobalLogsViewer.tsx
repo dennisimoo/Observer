@@ -102,15 +102,15 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
   const getLevelColor = (level: LogLevel): string => {
     switch (level) {
       case LogLevel.DEBUG:
-        return 'text-gray-500';
+        return 'text-gray-500 dark:text-gray-400';
       case LogLevel.INFO:
-        return 'text-blue-600';
+        return 'text-blue-600 dark:text-blue-400';
       case LogLevel.WARNING:
-        return 'text-amber-600';
+        return 'text-amber-600 dark:text-amber-400';
       case LogLevel.ERROR:
-        return 'text-red-600';
+        return 'text-red-600 dark:text-red-400';
       default:
-        return 'text-gray-800';
+        return 'text-gray-800 dark:text-gray-200';
     }
   };
 
@@ -133,33 +133,33 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40 h-64 overflow-hidden flex flex-col">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600 shadow-lg z-40 h-64 overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="bg-gray-100 px-4 py-2 flex justify-between items-center border-b">
+      <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 flex justify-between items-center border-b border-gray-200 dark:border-gray-600">
         <div className="flex items-center">
-          <h3 className="font-semibold">System Logs</h3>
-          <span className="ml-2 bg-blue-100 text-blue-800 text-xs py-1 px-2 rounded-full">
+          <h3 className="font-semibold text-gray-900 dark:text-white">System Logs</h3>
+          <span className="ml-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs py-1 px-2 rounded-full">
             {filteredLogs.length} entries
           </span>
         </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={downloadLogs}
-            className="p-1 hover:bg-gray-200 rounded"
+            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300"
             title="Download logs"
           >
             <Download size={18} />
           </button>
           <button
             onClick={clearLogs}
-            className="p-1 hover:bg-gray-200 rounded"
+            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300"
             title="Clear logs"
           >
             <RefreshCw size={18} />
           </button>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-200 rounded"
+            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-600 rounded text-gray-700 dark:text-gray-300"
             title="Close log viewer"
           >
             <X size={18} />
@@ -168,14 +168,14 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
       </div>
       
       {/* Filters */}
-      <div className="bg-gray-50 px-4 py-2 flex items-center space-x-4 border-b">
+      <div className="bg-gray-50 dark:bg-gray-700 px-4 py-2 flex items-center space-x-4 border-b border-gray-200 dark:border-gray-600">
         <div className="flex items-center">
-          <label htmlFor="log-level" className="text-sm mr-2">Level:</label>
+          <label htmlFor="log-level" className="text-sm mr-2 text-gray-700 dark:text-gray-300">Level:</label>
           <select
             id="log-level"
             value={minLevel}
             onChange={(e) => setMinLevel(Number(e.target.value) as LogLevel)}
-            className="text-sm border rounded p-1"
+            className="text-sm border border-gray-300 dark:border-gray-600 rounded p-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             <option value={LogLevel.DEBUG}>Debug & Above</option>
             <option value={LogLevel.INFO}>Info & Above</option>
@@ -185,12 +185,12 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
         </div>
         
         <div className="flex items-center">
-          <label htmlFor="log-source" className="text-sm mr-2">Source:</label>
+          <label htmlFor="log-source" className="text-sm mr-2 text-gray-700 dark:text-gray-300">Source:</label>
           <select
             id="log-source"
             value={filterSource || ''}
             onChange={(e) => setFilterSource(e.target.value || null)}
-            className="text-sm border rounded p-1"
+            className="text-sm border border-gray-300 dark:border-gray-600 rounded p-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             <option value="">All Sources</option>
             {uniqueSources.map(source => (
@@ -202,7 +202,7 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
         </div>
         
         <div className="flex items-center flex-grow">
-          <label htmlFor="log-filter" className="text-sm mr-2">
+          <label htmlFor="log-filter" className="text-sm mr-2 text-gray-700 dark:text-gray-300">
             <Filter size={16} />
           </label>
           <input
@@ -216,7 +216,7 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
         </div>
         
         <div className="flex items-center">
-          <label htmlFor="auto-scroll" className="text-sm mr-2">Auto-scroll:</label>
+          <label htmlFor="auto-scroll" className="text-sm mr-2 text-gray-700 dark:text-gray-300">Auto-scroll:</label>
           <input
             id="auto-scroll"
             type="checkbox"
@@ -227,23 +227,23 @@ const GlobalLogsViewer: React.FC<GlobalLogsViewerProps> = ({ isOpen, onClose }) 
       </div>
       
       {/* Log content */}
-      <div className="flex-grow overflow-y-auto p-2 font-mono text-sm bg-white">
+      <div className="flex-grow overflow-y-auto p-2 font-mono text-sm bg-white dark:bg-gray-800">
         {filteredLogs.length === 0 ? (
-          <div className="text-gray-500 italic text-center mt-4">
+          <div className="text-gray-500 dark:text-gray-400 italic text-center mt-4">
             No logs to display
           </div>
         ) : (
           <div className="space-y-1">
             {filteredLogs.map((log) => (
-              <div key={log.id} className="hover:bg-gray-50 p-1">
+              <div key={log.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 p-1">
                 <div className="flex">
-                  <span className="text-gray-500 w-20 shrink-0">{formatTime(log.timestamp)}</span>
+                  <span className="text-gray-500 dark:text-gray-400 w-20 shrink-0">{formatTime(log.timestamp)}</span>
                   <span className={`w-14 shrink-0 ${getLevelColor(log.level)}`}>{getLevelText(log.level)}</span>
-                  <span className="w-24 shrink-0 text-gray-700 truncate">{log.source}</span>
-                  <span className="flex-grow">{log.message}</span>
+                  <span className="w-24 shrink-0 text-gray-700 dark:text-gray-300 truncate">{log.source}</span>
+                  <span className="flex-grow text-gray-900 dark:text-gray-100">{log.message}</span>
                 </div>
                 {log.details && (
-                  <div className="ml-34 pl-34 text-xs bg-gray-50 p-1 mt-1 rounded border-l-2 border-gray-300 overflow-x-auto">
+                  <div className="ml-34 pl-34 text-xs bg-gray-50 dark:bg-gray-700 p-1 mt-1 rounded border-l-2 border-gray-300 dark:border-gray-600 overflow-x-auto text-gray-700 dark:text-gray-300">
                     {typeof log.details === 'string' 
                       ? log.details 
                       : JSON.stringify(log.details, null, 2)}

@@ -23,10 +23,10 @@ interface ProgressItem {
 
 // Reusable Card Component (Your existing component)
 const SettingsCard: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="bg-white shadow-md rounded-lg mb-6">
-    <div className="p-4 border-b">
-      <h3 className="text-lg font-semibold flex items-center">
-        <Settings className="h-5 w-5 mr-2 text-gray-500" />
+  <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg mb-6">
+    <div className="p-4 border-b dark:border-gray-700">
+      <h3 className="text-lg font-semibold flex items-center text-gray-900 dark:text-white">
+        <Settings className="h-5 w-5 mr-2 text-gray-500 dark:text-gray-400" />
         {title}
       </h3>
     </div>
@@ -204,20 +204,20 @@ const SettingsTab = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold text-gray-800">Application Settings</h1>
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Application Settings</h1>
 
       {/* --- Existing Screen OCR Settings Card --- */}
       <SettingsCard title="Screen OCR Settings">
         <div className="space-y-4">
           <div>
-            <label htmlFor="ocr-lang" className="block text-sm font-medium text-gray-700">Recognition Language</label>
-            <select id="ocr-lang" value={ocrLang} onChange={handleOcrLangChange} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+            <label htmlFor="ocr-lang" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Recognition Language</label>
+            <select id="ocr-lang" value={ocrLang} onChange={handleOcrLangChange} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
             {AVAILABLE_OCR_LANGUAGES.map(lang => <option key={lang.code} value={lang.code}>{lang.label}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor="ocr-confidence" className="block text-sm font-medium text-gray-700">Minimum Confidence ({ocrConfidence}%)</label>
-            <input type="range" id="ocr-confidence" min="0" max="100" value={ocrConfidence} onChange={handleOcrConfidenceChange} className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
+            <label htmlFor="ocr-confidence" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Minimum Confidence ({ocrConfidence}%)</label>
+            <input type="range" id="ocr-confidence" min="0" max="100" value={ocrConfidence} onChange={handleOcrConfidenceChange} className="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer" />
           </div>
         </div>
       </SettingsCard>
@@ -284,10 +284,10 @@ const SettingsTab = () => {
 
           {/* --- Audit Trail Section --- */}
           <div>
-            <h4 className="text-md font-semibold text-gray-700 mb-2">Audit Trail</h4>
-            <div className="border rounded-lg p-2 bg-gray-50 max-h-96 overflow-y-auto">
+            <h4 className="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Audit Trail</h4>
+            <div className="border dark:border-gray-600 rounded-lg p-2 bg-gray-50 dark:bg-gray-700 max-h-96 overflow-y-auto">
                 {auditTrail.length === 0 ? (
-                    <p className="text-sm text-gray-500 text-center py-4">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
                         {isTestRunning ? 'Listening... Speak into your microphone.' : 'Start a live test to see recorded chunks here.'}
                     </p>
                 ) : (

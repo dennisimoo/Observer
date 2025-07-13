@@ -33,17 +33,17 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
       
       {/* Sidebar */}
       <div 
-        className={`fixed top-0 left-0 bottom-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 bottom-0 w-64 bg-white dark:bg-gray-900 shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="p-4 border-b flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Observer</h2>
+        <div className="p-4 border-b dark:border-gray-700 flex justify-between items-center">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Observer</h2>
           <button 
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-gray-100"
+            className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            <X className="h-6 w-6" />
+            <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
         
@@ -54,8 +54,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('myAgents')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'myAgents' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Home className="h-5 w-5" />
@@ -68,8 +68,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('recordings')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'recordings' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Video className="h-5 w-5" />
@@ -82,8 +82,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('community')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'community' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Users className="h-5 w-5" />
@@ -95,8 +95,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('models')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'models' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Database className="h-5 w-5" />
@@ -109,8 +109,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('obServer')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'obServer' 
-                    ? 'bg-purple-100 text-purple-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Server className="h-5 w-5" />
@@ -123,8 +123,8 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                 onClick={() => handleTabClick('settings')}
                 className={`w-full flex items-center space-x-3 px-4 py-2 rounded-md ${
                   activeTab === 'settings' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'hover:bg-gray-100'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
                 }`}
               >
                 <Settings className="h-5 w-5" />
@@ -135,7 +135,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
           </ul>
         </nav>
         
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t text-center text-xs text-gray-500">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t dark:border-gray-700 text-center text-xs text-gray-500 dark:text-gray-400">
           Observer v0.1.0
         </div>
       </div>

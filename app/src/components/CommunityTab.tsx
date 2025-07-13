@@ -440,11 +440,11 @@ const CommunityTab: React.FC = () => {
   return (
     <div className="mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Community Agents</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Community Agents</h2>
         <div className="flex items-center space-x-2">
           <button 
             onClick={fetchAgents}
-            className="flex items-center space-x-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200"
+            className="flex items-center space-x-2 px-3 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-900/40"
             disabled={isLoadingAgents}
           >
             <RefreshCw className={`h-4 w-4 ${isLoadingAgents ? 'animate-spin' : ''}`} />
@@ -453,7 +453,7 @@ const CommunityTab: React.FC = () => {
           
           <button
             onClick={handleUploadClick}
-            className="flex items-center space-x-2 px-3 py-2 bg-green-100 text-green-700 rounded-md hover:bg-green-200"
+            className="flex items-center space-x-2 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-md hover:bg-green-200 dark:hover:bg-green-900/40"
           >
             <Upload className="h-4 w-4" />
             <span>Upload Agent</span>
@@ -462,16 +462,16 @@ const CommunityTab: React.FC = () => {
       </div>
       
       {!isAuthenticated && (
-        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md flex items-center">
+        <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-md flex items-center">
           <AlertTriangle className="h-5 w-5 mr-2 text-yellow-500" />
-          <p className="text-sm text-yellow-700">
+          <p className="text-sm text-yellow-700 dark:text-yellow-400">
             You need to sign in to upload agents to the community.
           </p>
         </div>
       )}
       
       {error && (
-        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
+        <div className="mb-4 p-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-md">
           {error}
         </div>
       )}
@@ -481,22 +481,22 @@ const CommunityTab: React.FC = () => {
           <div className="inline-block animate-spin mr-2">
             <RefreshCw className="h-6 w-6 text-blue-500" />
           </div>
-          <span>Loading community agents...</span>
+          <span className="text-gray-900 dark:text-white">Loading community agents...</span>
         </div>
       ) : agents.length === 0 ? (
-        <div className="text-center p-8 bg-gray-50 rounded-md">
-          <p className="text-gray-500">No community agents available</p>
+        <div className="text-center p-8 bg-gray-50 dark:bg-gray-800 rounded-md">
+          <p className="text-gray-500 dark:text-gray-400">No community agents available</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {agents.map(agent => (
-            <div key={agent.id} className="bg-white rounded-lg shadow-md p-4">
+            <div key={agent.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-md p-4">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">{agent.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{agent.name}</h3>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => viewDetails(agent)}
-                    className="p-2 rounded-md hover:bg-gray-100"
+                    className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
                     title="View details"
                   >
                     <Info className="h-5 w-5" />
@@ -504,7 +504,7 @@ const CommunityTab: React.FC = () => {
                   {isAuthorOfAgent(agent) && (
                     <button
                       onClick={() => handleEditClick(agent)}
-                      className="p-2 rounded-md hover:bg-green-100 text-green-600"
+                      className="p-2 rounded-md hover:bg-green-100 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400"
                       title="Edit your agent"
                     >
                       <Edit className="h-5 w-5" />
@@ -512,7 +512,7 @@ const CommunityTab: React.FC = () => {
                   )}
                   <button
                     onClick={() => handleImport(agent)}
-                    className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
+                    className="p-2 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                     title="Import agent"
                     disabled={importing === agent.id}
                   >
@@ -521,23 +521,23 @@ const CommunityTab: React.FC = () => {
                 </div>
               </div>
               
-              <span className="inline-block px-2 py-1 rounded-full text-sm bg-blue-100 text-blue-700">
+              <span className="inline-block px-2 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
                 Community
               </span>
               
               {isAuthorOfAgent(agent) && (
-                <span className="inline-block ml-2 px-2 py-1 rounded-full text-sm bg-green-100 text-green-700">
+                <span className="inline-block ml-2 px-2 py-1 rounded-full text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
                   Your Agent
                 </span>
               )}
               
               <div className="mt-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Model: {agent.model_name}
                 </p>
-                <p className="mt-2 text-sm">{agent.description}</p>
+                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">{agent.description}</p>
                 {agent.author && (
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     Contributed by: {agent.author}
                     {agent.date_added && (
                       <span> • {new Date(agent.date_added).toLocaleDateString()}</span>
@@ -558,7 +558,7 @@ const CommunityTab: React.FC = () => {
                   {importing === agent.id ? '⏳ Importing...' : '⬇️ Import'}
                 </button>
 
-                <div className="text-sm bg-gray-100 px-2 py-1 rounded">
+                <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded">
                   {agent.loop_interval_seconds}s
                 </div>
               </div>
@@ -579,27 +579,27 @@ const CommunityTab: React.FC = () => {
       {/* Agent Details Modal */}
       {selectedAgent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-3/4 max-w-4xl max-h-3/4 flex flex-col">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-xl font-semibold">{selectedAgent.name}</h2>
-              <button onClick={closeDetails} className="p-1 rounded-full hover:bg-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-3/4 max-w-4xl max-h-3/4 flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{selectedAgent.name}</h2>
+              <button onClick={closeDetails} className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400">
                 &times;
               </button>
             </div>
             
             <div className="flex-1 p-4 overflow-auto">
               <div className="mb-4">
-                <h3 className="font-medium mb-2">Details</h3>
-                <p><strong>ID:</strong> {selectedAgent.id}</p>
-                <p><strong>Model:</strong> {selectedAgent.model_name}</p>
-                <p><strong>Interval:</strong> {selectedAgent.loop_interval_seconds}s</p>
-                <p><strong>Description:</strong> {selectedAgent.description}</p>
+                <h3 className="font-medium mb-2 text-gray-900 dark:text-white">Details</h3>
+                <p className="text-gray-700 dark:text-gray-300"><strong>ID:</strong> {selectedAgent.id}</p>
+                <p className="text-gray-700 dark:text-gray-300"><strong>Model:</strong> {selectedAgent.model_name}</p>
+                <p className="text-gray-700 dark:text-gray-300"><strong>Interval:</strong> {selectedAgent.loop_interval_seconds}s</p>
+                <p className="text-gray-700 dark:text-gray-300"><strong>Description:</strong> {selectedAgent.description}</p>
                 
                 {selectedAgent.author && (
-                  <div className="mt-2 p-2 bg-blue-50 rounded-md text-sm">
-                    <p><strong>Author:</strong> {selectedAgent.author}</p>
+                  <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded-md text-sm">
+                    <p className="text-blue-700 dark:text-blue-300"><strong>Author:</strong> {selectedAgent.author}</p>
                     {selectedAgent.date_added && (
-                      <p><strong>Added:</strong> {new Date(selectedAgent.date_added).toLocaleString()}</p>
+                      <p className="text-blue-700 dark:text-blue-300"><strong>Added:</strong> {new Date(selectedAgent.date_added).toLocaleString()}</p>
                     )}
                   </div>
                 )}
@@ -607,22 +607,22 @@ const CommunityTab: React.FC = () => {
               
               {selectedAgent.system_prompt && (
                 <div className="mb-4">
-                  <h3 className="font-medium mb-2">System Prompt</h3>
-                  <div className="bg-gray-50 p-3 rounded overflow-auto max-h-40 text-sm font-mono">
+                  <h3 className="font-medium mb-2 text-gray-900 dark:text-white">System Prompt</h3>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded overflow-auto max-h-40 text-sm font-mono text-gray-800 dark:text-gray-200">
                     {selectedAgent.system_prompt}
                   </div>
                 </div>
               )}
               
               <div className="mb-4">
-                <h3 className="font-medium mb-2">Agent Code</h3>
-                <div className="bg-gray-50 p-3 rounded overflow-auto max-h-60 text-sm font-mono">
+                <h3 className="font-medium mb-2 text-gray-900 dark:text-white">Agent Code</h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded overflow-auto max-h-60 text-sm font-mono text-gray-800 dark:text-gray-200">
                   <pre>{selectedAgent.code}</pre>
                 </div>
               </div>
             </div>
             
-            <div className="p-4 border-t flex justify-end space-x-3">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-600 flex justify-end space-x-3">
               {isAuthorOfAgent(selectedAgent) && (
                 <button
                   onClick={() => {
@@ -651,33 +651,33 @@ const CommunityTab: React.FC = () => {
       {/* Upload Modal */}
       {showUploadModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-1/2 max-w-lg flex flex-col">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-xl font-semibold">Upload Agent</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-1/2 max-w-lg flex flex-col">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-600">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Upload Agent</h2>
               <button 
                 onClick={() => setShowUploadModal(false)} 
-                className="p-1 rounded-full hover:bg-gray-100"
+                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
               >
                 &times;
               </button>
             </div>
             
             <div className="p-4">
-              <p className="mb-4 text-sm text-gray-600">
+              <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                 You can upload one of your agents to the community marketplace. This will make your agent available for others to use.
               </p>
               
-              <div className="bg-blue-50 p-3 rounded-md mb-4 text-sm text-blue-700">
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md mb-4 text-sm text-blue-700 dark:text-blue-300">
                 <p><strong>Note:</strong> By uploading an agent, you agree to share it with the community. Your agent will be publicly available.</p>
               </div>
               
               <div className="mb-4">
-                <h3 className="font-medium mb-2">Select agent to upload</h3>
+                <h3 className="font-medium mb-2 text-gray-900 dark:text-white">Select agent to upload</h3>
                 
                 <select
                   value={selectedUploadAgent || ''}
                   onChange={(e) => setSelectedUploadAgent(e.target.value || null)}
-                  className="w-full p-2 border rounded-md"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="">Select an agent...</option>
                   {myAgents.map(agent => (
@@ -689,7 +689,7 @@ const CommunityTab: React.FC = () => {
               </div>
               
               <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   - OR -
                 </p>
               </div>
@@ -697,7 +697,7 @@ const CommunityTab: React.FC = () => {
               <div className="mt-4">
                 <button
                   onClick={handleFileUploadClick}
-                  className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-md text-gray-500 hover:bg-gray-50 flex items-center justify-center"
+                  className="w-full px-4 py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center justify-center"
                 >
                   <Upload className="h-5 w-5 mr-2" />
                   Upload Agent File (.json or .yaml)
@@ -705,10 +705,10 @@ const CommunityTab: React.FC = () => {
               </div>
             </div>
             
-            <div className="p-4 border-t flex justify-end space-x-3">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-600 flex justify-end space-x-3">
               <button
                 onClick={() => setShowUploadModal(false)}
-                className="px-4 py-2 border rounded-md hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
               >
                 Cancel
               </button>

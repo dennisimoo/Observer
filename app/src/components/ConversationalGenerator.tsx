@@ -110,14 +110,14 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-[450px] bg-white rounded-b-xl border-x border-b border-indigo-200 shadow-md">
+    <div className="flex flex-col h-[450px] bg-white dark:bg-gray-800 rounded-b-xl border-x border-b border-indigo-200 dark:border-gray-600 shadow-md">
       {/* Chat Messages */}
       <div className="flex-1 p-4 space-y-4 overflow-y-auto">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             {msg.sender === 'system' ? (
-              <div className="w-full bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-                <p className="text-indigo-800 font-medium mb-3">I've generated your agent blueprint!</p>
+              <div className="w-full bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-lg p-4 text-center">
+                <p className="text-indigo-800 dark:text-indigo-200 font-medium mb-3">I've generated your agent blueprint!</p>
                 <button
                   onClick={() => handleConfigureAndSave(msg.text)}
                   className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 font-medium transition-colors flex items-center mx-auto"
@@ -127,7 +127,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
                 </button>
               </div>
             ) : (
-              <div className={`max-w-md p-3 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}>
+              <div className={`max-w-md p-3 rounded-lg ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200'}`}>
                 {msg.text}
               </div>
             )}
@@ -135,7 +135,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
         ))}
         {isLoading && (
           <div className="flex justify-start">
-             <div className="bg-gray-200 text-gray-800 p-3 rounded-lg inline-flex items-center">
+             <div className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-3 rounded-lg inline-flex items-center">
                 <Loader2 className="h-5 w-5 animate-spin"/>
              </div>
           </div>
@@ -144,7 +144,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
       </div>
 
       {/* --- CONDITIONALLY RENDERED INPUT AREA --- */}
-      <div className="p-3 border-t border-gray-200 bg-gray-50">
+      <div className="p-3 border-t border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
         {isAuthenticated ? (
           // Authenticated User View
           <form onSubmit={handleSubmit} className="flex items-center">
@@ -153,7 +153,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="Describe the agent you want to build..."
-              className="flex-1 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700"
+              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-700"
               disabled={isLoading}
             />
             <button
@@ -171,7 +171,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
               type="text"
               disabled
               placeholder="Please log in to use the AI Builder"
-              className="flex-1 p-2 border border-gray-300 rounded-l-md bg-gray-100 cursor-not-allowed text-gray-500"
+              className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-l-md bg-gray-100 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400"
             />
             <button
               onClick={handleCopyPrompt}

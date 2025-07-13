@@ -24,9 +24,9 @@ const GetStarted: React.FC<GetStartedProps> = ({
     // --- MODIFIED --- Reduced horizontal padding for mobile
     <div className="w-full max-w-5xl mx-auto py-8 px-2 sm:px-4">
       {/* --- MODIFIED --- Reduced padding for mobile */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 sm:p-8 shadow-lg border border-indigo-200">
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 sm:p-8 shadow-lg border border-indigo-200 dark:border-slate-600">
         {/* --- MODIFIED --- Made title text size responsive */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-indigo-900 mb-6 sm:mb-8 text-center">Welcome to Observer AI</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-indigo-900 dark:text-indigo-200 mb-6 sm:mb-8 text-center">Welcome to Observer AI</h2>
 
         {/* --- MODIFIED --- Reduced bottom margin for mobile */}
         <div className="mb-8 sm:mb-12 max-w-3xl mx-auto">
@@ -54,24 +54,24 @@ const GetStarted: React.FC<GetStartedProps> = ({
           <div
             onClick={onExploreCommunity}
             // --- MODIFIED --- Reduced padding for mobile
-            className="bg-white border border-indigo-200 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
+            className="bg-white dark:bg-gray-800 border border-indigo-200 dark:border-gray-600 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
           >
             {/* --- MODIFIED --- Made icon container smaller for mobile */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <Users className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800 dark:to-indigo-800 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+              <Users className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 dark:text-indigo-300" />
             </div>
-            <h3 className="font-medium text-indigo-800 text-base sm:text-lg">Community Agents</h3>
+            <h3 className="font-medium text-indigo-800 dark:text-indigo-300 text-base sm:text-lg">Community Agents</h3>
           </div>
           <div
             onClick={onCreateNewAgent}
             // --- MODIFIED --- Reduced padding for mobile
-            className="bg-white border border-indigo-200 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
+            className="bg-white dark:bg-gray-800 border border-indigo-200 dark:border-gray-600 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
           >
             {/* --- MODIFIED --- Made icon container smaller for mobile */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <Plus className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800 dark:to-indigo-800 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+              <Plus className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 dark:text-indigo-300" />
             </div>
-            <h3 className="font-medium text-indigo-800 text-base sm:text-lg">Build From Scratch</h3>
+            <h3 className="font-medium text-indigo-800 dark:text-indigo-300 text-base sm:text-lg">Build From Scratch</h3>
           </div>
         </div>
       </div>
