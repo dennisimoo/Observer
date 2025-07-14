@@ -120,8 +120,20 @@ export const useEditAgentModalLogic = ({
       const { host, port } = getOllamaServerAddress();
       const r = await listModels(host, port);
       if (r.error) throw new Error(r.error);
-      setAvailableModels(r.models);
-      const defaultModel = agent?.model_name ?? r.models[0]?.name ?? '';
+      let modelsToUse = r.models;
+      
+      // For cloud servers, ensure gemini-2.0-flash-lite is in the list even if API doesn't return it
+      const isCloud = host === 'https://api.observer-ai.com';
+      if (isCloud) {
+        const hasGemini2 = r.models.find(m => m.name === 'gemini-2.0-flash-lite');
+        if (!hasGemini2) {
+          modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...r.models];
+        }
+      }
+      
+      setAvailableModels(modelsToUse);
+      // Use existing agent model, or gemini-2.0-flash-lite for cloud, or first available for local
+      const defaultModel = agent?.model_name ?? (isCloud ? 'gemini-2.0-flash-lite' : modelsToUse[0]?.name ?? '');
       setCurrentModel(defaultModel);
     } catch (e) {
       setModelsError(e instanceof Error ? e.message : String(e));

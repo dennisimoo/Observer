@@ -31,7 +31,7 @@ const ConversationalGeneratorModal: React.FC<ConversationalGeneratorModalProps> 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Modal Header */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 flex items-center justify-between">
           <div className="flex items-center">
@@ -48,7 +48,7 @@ const ConversationalGeneratorModal: React.FC<ConversationalGeneratorModalProps> 
         </div>
 
         {/* The Conversational Component is placed inside the modal body */}
-        <div className="flex-1 bg-gray-50">
+        <div className="flex-1 bg-gray-50 dark:bg-gray-900">
           <ConversationalGenerator 
           onAgentGenerated={handleAgentReady}
           getToken={getToken}

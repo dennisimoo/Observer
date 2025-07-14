@@ -123,6 +123,10 @@ function AppContent() {
       setAgentCodes(newCodes);
 
       setError(null);
+      
+      // Refresh the ConversationalGenerator models after fetching agents
+      window.dispatchEvent(new Event('refreshConversationalModels'));
+      
     } catch (err) {
       setError('Failed to fetch agents from database');
       Logger.error('APP', `Error fetching agents:`, err);
@@ -290,13 +294,6 @@ function AppContent() {
 
   const handleDismissStartupDialog = () => {
     setShowStartupDialog(false);
-  };
-
-  // Function to reset startup preferences (can be called from settings)
-  const resetStartupPreferences = () => {
-    localStorage.removeItem('observer-startup-completed');
-    localStorage.removeItem('observer-server-choice');
-    setShowStartupDialog(true);
   };
 
   const toggleAgent = async (id: string, isCurrentlyRunning: boolean): Promise<void> => {
@@ -515,16 +512,14 @@ function AppContent() {
 
           {activeTab === 'myAgents' ? (
           <>
-
-            <AgentImportHandler 
-              onAddAgent={handleAddAgentClick}
-              agentCount={agents.length}
-              activeAgentCount={runningAgents.size}
-              isRefreshing={isRefreshing}
-              onRefresh={fetchAgents}
-              onGenerateAgent={() => setIsConversationalModalOpen(true)}
-            />
-
+            {agents.length > 0 && (
+              <AgentImportHandler 
+                isRefreshing={isRefreshing}
+                onRefresh={fetchAgents}
+                onGenerateUsingAI={() => setIsConversationalModalOpen(true)}
+                onBuildCustom={handleAddAgentClick}
+              />
+            )}
             <div className="flex flex-wrap gap-6">
               {agents.length > 0 ? agents.map(agent => (
                 <div key={agent.id} className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] flex-shrink-0">

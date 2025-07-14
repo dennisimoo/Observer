@@ -110,9 +110,22 @@ const SimpleCreatorModal: React.FC<SimpleCreatorModalProps> = ({ isOpen, onClose
       const { host, port } = getOllamaServerAddress();
       const [modelsResponse, agentsResponse] = await Promise.all([listModels(host, port), listAgents()]);
       if (modelsResponse.models) {
-        setAvailableModels(modelsResponse.models);
-        if (modelsResponse.models.length > 0 && !model) {
-          setModel(modelsResponse.models[0].name);
+        let modelsToUse = modelsResponse.models;
+        
+        // For cloud servers, ensure gemini-2.0-flash-lite is in the list even if API doesn't return it
+        const isCloud = host === 'https://api.observer-ai.com';
+        if (isCloud) {
+          const hasGemini2 = modelsResponse.models.find(m => m.name === 'gemini-2.0-flash-lite');
+          if (!hasGemini2) {
+            modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...modelsResponse.models];
+          }
+        }
+        
+        setAvailableModels(modelsToUse);
+        if (modelsToUse.length > 0 && !model) {
+          // Use gemini-2.0-flash-lite for cloud, first available for local
+          const defaultModel = isCloud ? 'gemini-2.0-flash-lite' : modelsToUse[0].name;
+          setModel(defaultModel);
         }
       }
       setExistingAgents(agentsResponse);

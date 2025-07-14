@@ -15,7 +15,7 @@ interface GenerateAgentModalProps {
   getToken: TokenProvider;
 }
 
-const DEFAULT_MODEL = 'gemini-2.5-flash-preview-04-17';
+// No default model - must use available models only
 
 const GenerateAgentModal: React.FC<GenerateAgentModalProps> = ({
   isOpen,
@@ -26,7 +26,7 @@ const GenerateAgentModal: React.FC<GenerateAgentModalProps> = ({
   const [agentType, setAgentType] = useState<'browser' | 'python'>(initialAgentType);
 
   // --- State for Model Dropdown ---
-  const [selectedModel, setSelectedModel] = useState<string>(DEFAULT_MODEL);
+  const [selectedModel, setSelectedModel] = useState<string>('');
   const [availableModels, setAvailableModels] = useState<Model[]>([]);
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState<boolean>(false);
   const [loadingModels, setLoadingModels] = useState<boolean>(false);
@@ -67,23 +67,32 @@ const GenerateAgentModal: React.FC<GenerateAgentModalProps> = ({
           if (result.error) {
             throw new Error(result.error);
           }
-          setAvailableModels(result.models);
-          // If default model is in list, keep it, else pick first or keep default
-          if (!result.models.find(m => m.name === DEFAULT_MODEL) && result.models.length > 0) {
-            setSelectedModel(result.models[0].name);
-          } else if (result.models.length === 0 && DEFAULT_MODEL) {
-            // No models fetched, but we have a hardcoded default
-            setSelectedModel(DEFAULT_MODEL);
-          } else if (result.models.length === 0 && !DEFAULT_MODEL) {
-            setModelsError("No models available and no default set.");
+          let modelsToUse = result.models;
+          
+          // For cloud servers, ensure gemini-2.0-flash-lite is in the list even if API doesn't return it
+          const isCloud = host === 'https://api.observer-ai.com';
+          if (isCloud) {
+            const hasGemini2 = result.models.find(m => m.name === 'gemini-2.0-flash-lite');
+            if (!hasGemini2) {
+              modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...result.models];
+            }
+          }
+          
+          setAvailableModels(modelsToUse);
+          // Use gemini-2.0-flash-lite for cloud, first available for local
+          if (modelsToUse.length > 0) {
+            const defaultModel = isCloud ? 'gemini-2.0-flash-lite' : modelsToUse[0].name;
+            setSelectedModel(defaultModel);
+          } else {
+            setModelsError("No models available on this server.");
             setSelectedModel(''); // No model can be selected
           }
         } catch (e) {
           const errorMsg = e instanceof Error ? e.message : String(e);
           console.error('Failed to fetch models:', errorMsg);
-          setModelsError(`Failed to load models: ${errorMsg}. Using default: ${DEFAULT_MODEL}.`);
+          setModelsError(`Failed to load models: ${errorMsg}. Please check your server connection.`);
           setAvailableModels([]); // Clear available models on error
-          setSelectedModel(DEFAULT_MODEL); // Fallback to default on error
+          setSelectedModel(''); // No model available on error
         } finally {
           setLoadingModels(false);
         }
@@ -263,7 +272,16 @@ const GenerateAgentModal: React.FC<GenerateAgentModalProps> = ({
 
         {/* Modal Content */}
         <div className="p-5 flex-1 overflow-y-auto bg-gray-50">
-          <GenerateAgent agentType={agentType} modelName={selectedModel} getToken={getToken}/>
+          {!loadingModels && !selectedModel ? (
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
+              <div className="text-red-500 text-lg font-medium">No Models Available</div>
+              <p className="text-gray-600 max-w-md">
+                No models are available on the current server. Please check your server connection or add models to continue.
+              </p>
+            </div>
+          ) : (
+            <GenerateAgent agentType={agentType} modelName={selectedModel} getToken={getToken}/>
+          )}
         </div>
       </div>
     </div>

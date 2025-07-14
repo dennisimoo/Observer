@@ -77,7 +77,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   onLogoClick,
 }) => {
   // --- MODIFIED --- Default to the full, desired URL for the proxy.
-  const [serverAddress, setServerAddress] = useState('http://localhost:3838');
+  const [serverAddress, setServerAddress] = useState(() => {
+    // Load saved server address from localStorage or use default
+    const savedAddress = localStorage.getItem('observer-server-address');
+    return savedAddress || 'http://localhost:3838';
+  });
   const [internalIsUsingObServer, setInternalIsUsingObServer] = useState(false);
   const [quotaInfo, setQuotaInfo] = useState<QuotaInfo>(null);
   const [isLoadingQuota, setIsLoadingQuota] = useState(false);
@@ -240,7 +244,14 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (isUsingObServer) return;
-    setServerAddress(e.target.value);
+    const newAddress = e.target.value;
+    setServerAddress(newAddress);
+    // Save to localStorage as user types (but only for local server addresses)
+    if (newAddress) {
+      localStorage.setItem('observer-server-address', newAddress);
+    } else {
+      localStorage.removeItem('observer-server-address');
+    }
   };
 
   const handleAddressInputBlur = () => {
@@ -283,9 +294,12 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       Logger.info('SERVER', 'Mode switched to Ob-Server. Updating address...');
       setOllamaServerAddress('https://api.observer-ai.com', '443'); // Set global state immediately
     } else {
-      setServerAddress('http://localhost:3838');
+      // Restore saved address when switching back to local mode
+      const savedAddress = localStorage.getItem('observer-server-address');
+      const localAddress = savedAddress || 'http://localhost:3838';
+      setServerAddress(localAddress);
       Logger.info('SERVER', 'Mode switched to Local. Updating address...');
-      const { host, port } = parseServerAddress('http://localhost:3838');
+      const { host, port } = parseServerAddress(localAddress);
       setOllamaServerAddress(host, port); // Set global state immediately
       setQuotaInfo(null); // Clear cloud state
       setIsSessionExpired(false);

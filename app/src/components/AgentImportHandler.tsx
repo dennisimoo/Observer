@@ -1,63 +1,68 @@
 // src/components/AgentImportHandler.tsx
 
-import { PlusCircle, RotateCw, Sparkles } from 'lucide-react';
+import { RotateCw, MessageSquare, Code, Sparkles } from 'lucide-react';
 
 interface AgentImportHandlerProps {
-  onAddAgent: () => void;
-  onGenerateAgent: () => void;
-  agentCount: number;
-  activeAgentCount: number;
   isRefreshing: boolean;
   onRefresh: () => void;
+  onGenerateUsingAI: () => void;
+  onBuildCustom: () => void;
 }
 
 const AgentImportHandler = ({
-  onAddAgent,
-  onGenerateAgent,
-  agentCount,
-  activeAgentCount,
   isRefreshing,
-  onRefresh
+  onRefresh,
+  onGenerateUsingAI,
+  onBuildCustom
 }: AgentImportHandlerProps) => {
 
-  return (
-    <>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-2">
-          <button onClick={onRefresh} className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" disabled={isRefreshing} title="Refresh agents">
-            <RotateCw className={`h-5 w-5 text-gray-600 dark:text-gray-300 ${isRefreshing ? 'animate-spin' : ''}`} />
-          </button>
-          {/* --- MODIFIED --- */}
-          {/* Wrapped labels in spans that are hidden on mobile */}
-          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-            <span className="hidden sm:inline">Active: </span>
-            {activeAgentCount} / <span className="hidden sm:inline">Total: </span>{agentCount}
-          </p>
-        </div>
-        
-        <div className="flex items-center space-x-2 sm:space-x-3"> {/* Adjusted spacing for mobile */}
-          <button
-            onClick={onGenerateAgent}
-            // --- MODIFIED ---
-            // Adjusted padding for mobile and hid the span
-            className="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600"
-          >
-            <Sparkles className="h-5 w-5" />
-            <span className="hidden sm:inline">Generate Agent</span>
-          </button>
+  const handleGenerateUsingAI = () => {
+    // Refresh models first, then open AI generator
+    window.dispatchEvent(new Event('refreshConversationalModels'));
+    onGenerateUsingAI();
+  };
 
+  const handleBuildCustom = () => {
+    // Refresh models first, then open custom builder
+    window.dispatchEvent(new Event('refreshConversationalModels'));
+    onBuildCustom();
+  };
+
+  return (
+    <div className="mb-8">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center justify-between">
+          {/* Action buttons */}
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={handleGenerateUsingAI}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>Generate Using AI</span>
+            </button>
+            
+            <button
+              onClick={handleBuildCustom}
+              className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-sm"
+            >
+              <Code className="h-4 w-4" />
+              <span>Build Custom</span>
+            </button>
+          </div>
+
+          {/* Refresh button */}
           <button
-            onClick={onAddAgent}
-            // --- MODIFIED ---
-            // Adjusted padding for mobile and hid the span
-            className="flex items-center space-x-2 px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            title="Refresh agents"
           >
-            <PlusCircle className="h-5 w-5" />
-            <span className="hidden sm:inline">Create Agent</span>
+            <RotateCw className={`h-5 w-5 text-gray-600 dark:text-gray-300 ${isRefreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,8 +1,9 @@
 // src/components/GetStarted.tsx
 import React from 'react';
-import { Plus, Users, Sparkles } from 'lucide-react';
+import { Plus, Users, Sparkles, MessageSquare, Code } from 'lucide-react';
 import ConversationalGenerator from './ConversationalGenerator';
 import { CompleteAgent } from '@utils/agent_database';
+import { getOllamaServerAddress } from '@utils/main_loop';
 import type { TokenProvider } from '@utils/main_loop';
 
 interface GetStartedProps {
@@ -20,58 +21,73 @@ const GetStarted: React.FC<GetStartedProps> = ({
   getToken,
   isAuthenticated
 }) => {
+  const { host, port } = getOllamaServerAddress();
+  const serverUrl = port ? `${host}:${port}` : host;
+  
   return (
-    // --- MODIFIED --- Reduced horizontal padding for mobile
-    <div className="w-full max-w-5xl mx-auto py-8 px-2 sm:px-4">
-      {/* --- MODIFIED --- Reduced padding for mobile */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 rounded-xl p-4 sm:p-8 shadow-lg border border-indigo-200 dark:border-slate-600">
-        {/* --- MODIFIED --- Made title text size responsive */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-indigo-900 dark:text-indigo-200 mb-6 sm:mb-8 text-center">Welcome to Observer AI</h2>
-
-        {/* --- MODIFIED --- Reduced bottom margin for mobile */}
-        <div className="mb-8 sm:mb-12 max-w-3xl mx-auto">
-          
-          {/* --- MODIFIED (Desktop Version) --- */}
-          {/* This decorative header is now HIDDEN on mobile and visible on sm screens and up */}
-          <div className="hidden sm:flex bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-5 rounded-t-xl items-center">
-            <Sparkles className="h-6 w-6 mr-3" />
-            <div>
-              <h3 className="font-medium text-lg">Create a New AI Agent</h3>
-              <p className="text-sm text-blue-200">Just tell me what you want to build!</p>
+    <div className="p-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <div className="container mx-auto max-w-6xl">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Create Agent</h1>
+        
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Main AI Builder */}
+          <div className="lg:col-span-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mr-3">
+                    <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">AI Agent Builder</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Connected to {serverUrl} • Describe what you want your agent to do
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <ConversationalGenerator 
+                  onAgentGenerated={onAgentGenerated} 
+                  getToken={getToken}
+                  isAuthenticated={isAuthenticated}
+                />
+              </div>
             </div>
           </div>
-          
-          {/* --- NEW (Mobile Version) --- */}
-          
-          <ConversationalGenerator 
-            onAgentGenerated={onAgentGenerated} 
-            getToken={getToken}
-            isAuthenticated={isAuthenticated}
-          />
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 max-w-3xl mx-auto">
-          <div
-            onClick={onExploreCommunity}
-            // --- MODIFIED --- Reduced padding for mobile
-            className="bg-white dark:bg-gray-800 border border-indigo-200 dark:border-gray-600 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
-          >
-            {/* --- MODIFIED --- Made icon container smaller for mobile */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800 dark:to-indigo-800 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <Users className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 dark:text-indigo-300" />
+          {/* Side Actions */}
+          <div className="space-y-4">
+            <div
+              onClick={onExploreCommunity}
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mr-3">
+                  <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Community</h3>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Browse and use pre-built agents from the community
+              </p>
             </div>
-            <h3 className="font-medium text-indigo-800 dark:text-indigo-300 text-base sm:text-lg">Community Agents</h3>
-          </div>
-          <div
-            onClick={onCreateNewAgent}
-            // --- MODIFIED --- Reduced padding for mobile
-            className="bg-white dark:bg-gray-800 border border-indigo-200 dark:border-gray-600 rounded-xl p-4 sm:p-6 text-center cursor-pointer hover:bg-indigo-50 dark:hover:bg-gray-700 transition-transform hover:-translate-y-1 flex flex-col items-center shadow-md"
-          >
-            {/* --- MODIFIED --- Made icon container smaller for mobile */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-800 dark:to-indigo-800 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-              <Plus className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 dark:text-indigo-300" />
+
+            <div
+              onClick={onCreateNewAgent}
+              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mr-3">
+                  <Code className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                </div>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Build Custom</h3>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Create an agent manually with full control over its behavior
+              </p>
             </div>
-            <h3 className="font-medium text-indigo-800 dark:text-indigo-300 text-base sm:text-lg">Build From Scratch</h3>
           </div>
         </div>
       </div>

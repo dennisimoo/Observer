@@ -41,9 +41,14 @@ export function parseAgentResponse(configText: string): { agent: CompleteAgent, 
       loop_interval_seconds: parseFloat(getField('loop_interval_seconds')) || 60,
     };
     
+    // Debug logging for AI's model choice
+    console.log('  🎯 AI Selected Model for Agent:', agent.model_name);
+    console.log('  📝 Agent Name:', agent.name);
+    console.log('  ⏱️  Loop Interval:', agent.loop_interval_seconds + 's');
+    
     // Basic validation
     if (!agent.model_name) {
-      console.error("Parsing Error: model_name is missing.");
+      console.error("❌ Parsing Error: model_name is missing.");
       return null;
     }
 

@@ -150,15 +150,15 @@ const ConfigContent: React.FC<ConfigContentProps> = ({
     <h3 className="text-lg font-semibold text-indigo-700 mb-4 md:hidden">Agent Configuration</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
       <div>
-        <label className="block text-gray-600 mb-1 flex items-center"><Edit3 size={14} className="mr-1.5 text-gray-500" />Name <span className="text-red-500">*</span></label>
+        <label className="flex items-center text-gray-600 mb-1"><Edit3 size={14} className="mr-1.5 text-gray-500" />Name <span className="text-red-500">*</span></label>
         <input value={name} onChange={(e) => setName(e.target.value)} className="w-full p-2 bg-gray-100 border-gray-300 rounded-md" placeholder="Agent name" />
       </div>
       <div>
-        <label className="block text-gray-600 mb-1 flex items-center"><Tag size={14} className="mr-1.5 text-gray-500" />ID {createMode && <span className="text-red-500">*</span>}</label>
+        <label className="flex items-center text-gray-600 mb-1"><Tag size={14} className="mr-1.5 text-gray-500" />ID {createMode && <span className="text-red-500">*</span>}</label>
         <input value={agentId} onChange={(e) => { if (createMode) { setAgentId(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, '')); } }} readOnly={!createMode} className={`w-full p-2 bg-gray-100 border-gray-300 rounded-md ${createMode ? 'focus:ring-indigo-500' : 'opacity-70 cursor-not-allowed bg-gray-200'}`} placeholder="my_agent_id" />
       </div>
       <div>
-        <label className="block text-gray-600 mb-1 flex items-center"><Brain size={14} className="mr-1.5 text-gray-500" />Model <span className="text-red-500">*</span></label>
+        <label className="flex items-center text-gray-600 mb-1"><Brain size={14} className="mr-1.5 text-gray-500" />Model <span className="text-red-500">*</span></label>
         <div className="relative">
           <button onClick={() => setIsModelDropdownOpen(!isModelDropdownOpen)} disabled={loadingModels} className="w-full p-2 bg-gray-100 border-gray-300 rounded-md flex justify-between items-center text-left">
             <span className="truncate">{currentModel || (loadingModels ? 'Loading…' : 'Select model')}</span>
@@ -201,11 +201,11 @@ const ConfigContent: React.FC<ConfigContentProps> = ({
         </div>
       </div>
       <div>
-        <label className="block text-gray-600 mb-1 flex items-center"><Activity size={14} className="mr-1.5 text-gray-500" />Loop (s)</label>
+        <label className="flex items-center text-gray-600 mb-1"><Activity size={14} className="mr-1.5 text-gray-500" />Loop (s)</label>
         <input type="number" min="15" step="1" value={loopInterval} onChange={(e) => setLoopInterval(Math.max(15, parseFloat(e.target.value) || 30))} className="w-full p-2 bg-gray-100 border-gray-300 rounded-md" />
       </div>
       <div className="col-span-1 sm:col-span-2">
-        <label className="block text-gray-600 mb-1 flex items-center"><Edit3 size={14} className="mr-1.5 text-gray-500" />Description</label>
+        <label className="flex items-center text-gray-600 mb-1"><Edit3 size={14} className="mr-1.5 text-gray-500" />Description</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} className="w-full p-2 bg-gray-100 border-gray-300 rounded-md" placeholder="Optional description" />
       </div>
     </div>
@@ -339,7 +339,7 @@ const CodeEditorContent: React.FC<CodeEditorContentProps> = ({
       </div>
       {/* The Logs section is shown on desktop, but hidden on mobile (where it's in an accordion) */}
       <div className="hidden md:block">
-          <label className="block text-sm font-medium text-gray-600 mb-1 flex items-center"><Terminal size={14} className="mr-1.5" />Logs</label>
+          <label className="flex items-center text-sm font-medium text-gray-600 mb-1"><Terminal size={14} className="mr-1.5" />Logs</label>
           <LogsContent testOutput={testOutput} />
       </div>
    </div>
