@@ -16,6 +16,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', 
     port: 3001, // Different from desktop and website
+    allowedHosts: 'all', // Allow any host to access the dev server
   },
   preview: {
     host: '0.0.0.0',
