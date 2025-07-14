@@ -43,6 +43,7 @@ const CommunityTab: React.FC = () => {
   const [isLoadingAgents, setIsLoadingAgents] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [importing, setImporting] = useState<string | null>(null);
+  const [importedAgents, setImportedAgents] = useState<Set<string>>(new Set());
   const [selectedAgent, setSelectedAgent] = useState<MarketplaceAgent | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -137,6 +138,10 @@ const CommunityTab: React.FC = () => {
       const { listAgents } = await import('@utils/agent_database');
       const agents = await listAgents();
       setMyAgents(agents);
+      
+      // Check which community agents have already been imported
+      const importedIds = new Set(agents.map(agent => agent.id));
+      setImportedAgents(importedIds);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       Logger.error('COMMUNITY', `Error fetching local agents: ${errorMessage}`, err);
@@ -145,6 +150,7 @@ const CommunityTab: React.FC = () => {
 
   useEffect(() => {
     fetchAgents();
+    fetchMyAgents();
   }, []);
 
   // Check if the current user is the author of an agent
@@ -180,6 +186,9 @@ const CommunityTab: React.FC = () => {
       
       Logger.info('COMMUNITY', `Agent ${agent.name} imported successfully`);
       alert(`Agent "${agent.name}" imported successfully!`);
+      
+      // Mark agent as imported
+      setImportedAgents(prev => new Set(prev).add(agent.id));
       
       // Refresh the ConversationalGenerator models after import
       window.dispatchEvent(new Event('refreshConversationalModels'));
@@ -493,54 +502,51 @@ const CommunityTab: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {agents.map(agent => (
-            <div key={agent.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{agent.name}</h3>
-                <div className="flex space-x-2">
+            <div key={agent.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{agent.name}</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-block px-2 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                      Community
+                    </span>
+                    {isAuthorOfAgent(agent) && (
+                      <span className="inline-block px-2 py-1 rounded-full text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                        Your Agent
+                      </span>
+                    )}
+                    <span className="inline-block px-2 py-1 rounded-full text-xs bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300">
+                      {agent.loop_interval_seconds}s
+                    </span>
+                  </div>
+                </div>
+                <div className="flex space-x-1 ml-4">
                   <button
                     onClick={() => viewDetails(agent)}
-                    className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
+                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors"
                     title="View details"
                   >
-                    <Info className="h-5 w-5" />
+                    <Info className="h-4 w-4" />
                   </button>
                   {isAuthorOfAgent(agent) && (
                     <button
                       onClick={() => handleEditClick(agent)}
-                      className="p-2 rounded-md hover:bg-green-100 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400"
+                      className="p-2 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400 transition-colors"
                       title="Edit your agent"
                     >
-                      <Edit className="h-5 w-5" />
+                      <Edit className="h-4 w-4" />
                     </button>
                   )}
-                  <button
-                    onClick={() => handleImport(agent)}
-                    className="p-2 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                    title="Import agent"
-                    disabled={importing === agent.id}
-                  >
-                    <Download className={`h-5 w-5 ${importing === agent.id ? 'animate-pulse' : ''}`} />
-                  </button>
                 </div>
               </div>
               
-              <span className="inline-block px-2 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
-                Community
-              </span>
-              
-              {isAuthorOfAgent(agent) && (
-                <span className="inline-block ml-2 px-2 py-1 rounded-full text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
-                  Your Agent
-                </span>
-              )}
-              
-              <div className="mt-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Model: {agent.model_name}
+              <div className="mb-4 flex-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  Model: <span className="font-medium">{agent.model_name}</span>
                 </p>
-                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">{agent.description}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{agent.description}</p>
                 {agent.author && (
-                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                     Contributed by: {agent.author}
                     {agent.date_added && (
                       <span> • {new Date(agent.date_added).toLocaleDateString()}</span>
@@ -549,21 +555,35 @@ const CommunityTab: React.FC = () => {
                 )}
               </div>
               
-              <div className="mt-4 flex items-center space-x-4">
+              <div className="flex items-center justify-between mt-auto">
                 <button
                   onClick={() => handleImport(agent)}
-                  className={`px-4 py-2 rounded-md ${
-                    importing === agent.id
-                      ? 'bg-yellow-500 text-white hover:bg-yellow-600'
-                      : 'bg-blue-500 text-white hover:bg-blue-600'
+                  disabled={importing === agent.id || importedAgents.has(agent.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                    importedAgents.has(agent.id)
+                      ? 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-300 cursor-not-allowed'
+                      : importing === agent.id
+                      ? 'bg-amber-500 text-white hover:bg-amber-600 cursor-not-allowed'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-sm'
                   }`}
                 >
-                  {importing === agent.id ? '⏳ Importing...' : '⬇️ Import'}
+                  {importedAgents.has(agent.id) ? (
+                    <>
+                      <Download className="h-4 w-4 opacity-60" />
+                      <span>Imported</span>
+                    </>
+                  ) : importing === agent.id ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Importing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="h-4 w-4" />
+                      <span>Import</span>
+                    </>
+                  )}
                 </button>
-
-                <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded">
-                  {agent.loop_interval_seconds}s
-                </div>
               </div>
             </div>
           ))}
@@ -642,9 +662,16 @@ const CommunityTab: React.FC = () => {
                   handleImport(selectedAgent);
                   closeDetails();
                 }}
-                className="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
+                disabled={importing === selectedAgent.id || importedAgents.has(selectedAgent.id)}
+                className={`px-4 py-2 rounded-md ${
+                  importedAgents.has(selectedAgent.id)
+                    ? 'bg-gray-400 dark:bg-gray-600 text-gray-700 dark:text-gray-300 cursor-not-allowed'
+                    : importing === selectedAgent.id
+                    ? 'bg-amber-500 text-white cursor-not-allowed'
+                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                }`}
               >
-                Import Agent
+                {importedAgents.has(selectedAgent.id) ? 'Imported' : importing === selectedAgent.id ? 'Importing...' : 'Import Agent'}
               </button>
             </div>
           </div>
@@ -721,7 +748,7 @@ const CommunityTab: React.FC = () => {
                 disabled={!selectedUploadAgent || isUploading}
                 className={`px-4 py-2 rounded-md ${
                   !selectedUploadAgent
-                    ? 'bg-gray-300 text-gray-500'
+                    ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                     : isUploading
                       ? 'bg-yellow-500 text-white'
                       : 'bg-blue-500 text-white hover:bg-blue-600'
