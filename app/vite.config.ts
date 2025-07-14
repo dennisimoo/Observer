@@ -16,6 +16,12 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', 
     port: 3001, // Different from desktop and website
+    allowedHosts: [
+      'localhost',
+      'x44kscwks8o0sss84wsww8kg.192.9.234.21.sslip.io',
+      '.sslip.io',
+      'all'
+    ],
   },
   preview: {
     host: '0.0.0.0',
