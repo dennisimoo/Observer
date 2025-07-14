@@ -193,6 +193,9 @@ const CommunityTab: React.FC = () => {
       // Refresh the ConversationalGenerator models after import
       window.dispatchEvent(new Event('refreshConversationalModels'));
       
+      // Refresh the main agents list to show the newly imported agent
+      window.dispatchEvent(new Event('refreshAgentsList'));
+      
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       setError(`Failed to import agent: ${errorMessage}`);

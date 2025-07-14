@@ -253,6 +253,19 @@ function AppContentCore({
     };
   }, []);
 
+  // --- USEEFFECT FOR REFRESH AGENTS LIST EVENT LISTENER ---
+  useEffect(() => {
+    const handleRefreshAgentsList = () => {
+      fetchAgents();
+    };
+
+    window.addEventListener('refreshAgentsList', handleRefreshAgentsList);
+
+    return () => {
+      window.removeEventListener('refreshAgentsList', handleRefreshAgentsList);
+    };
+  }, [fetchAgents]);
+
   const handleEditClick = async (agentId: string) => {
     setSelectedAgent(agentId);
     setIsCreateMode(false);
