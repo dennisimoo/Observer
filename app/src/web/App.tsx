@@ -23,7 +23,7 @@ import ScheduleAgentModal from '@components/ScheduleAgentModal';
 import MemoryManager from '@components/MemoryManager';
 import ErrorDisplay from '@components/ErrorDisplay';
 import AgentImportHandler from '@components/AgentImportHandler';
-import SidebarMenu from '@components/SidebarMenu';
+import PersistentSidebar from '@components/PersistentSidebar';
 import AvailableModels from '@components/AvailableModels';
 import CommunityTab from '@components/CommunityTab';
 import GetStarted from '@components/GetStarted';
@@ -84,7 +84,6 @@ function AppContent() {
   const [isMemoryManagerOpen, setIsMemoryManagerOpen] = useState(false);
   const [memoryAgentId, setMemoryAgentId] = useState<string | null>(null);
   const [flashingMemories, setFlashingMemories] = useState<Set<string>>(new Set());
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('myAgents');
   const [isUsingObServer, setIsUsingObServer] = useState(true);
   const [isJupyterModalOpen, setIsJupyterModalOpen] = useState(false);
@@ -485,19 +484,13 @@ function AppContent() {
             loginWithRedirect,
             logout
           }}
-          onMenuClick={() => setIsSidebarOpen(true)}
-          shouldHighlightMenu={agents.length === 0}
           getToken={getToken}
+          onLogoClick={() => setActiveTab('myAgents')}
         />
 
-        <SidebarMenu 
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
+        <PersistentSidebar 
           activeTab={activeTab}
-          onTabChange={(tab) => {
-            setActiveTab(tab);
-            setIsSidebarOpen(false);
-          }}
+          onTabChange={setActiveTab}
         />
 
         <JupyterServerModal
@@ -505,7 +498,8 @@ function AppContent() {
           onClose={() => setIsJupyterModalOpen(false)}
         />
 
-        <main className="max-w-7xl mx-auto px-4 pt-24 pb-16">
+        <main className="ml-16 px-4 pt-24 pb-16">
+          <div className="max-w-6xl mx-auto">
 
           {error && <ErrorDisplay message={error} />}
 
@@ -567,6 +561,7 @@ function AppContent() {
               <p className="text-gray-500">This feature is coming soon!</p>
             </div>
           )}
+          </div>
         </main>
 
         <SimpleCreatorModal 

@@ -1,6 +1,6 @@
 // components/AppHeader.tsx
 import React, { useState, useEffect } from 'react';
-import { Menu, LogOut, ExternalLink, RefreshCw, Server } from 'lucide-react';
+import { LogOut, ExternalLink, RefreshCw, Server } from 'lucide-react';
 import ThemeToggle from '@components/ThemeToggle';
 import { checkOllamaServer } from '@utils/ollamaServer';
 import { setOllamaServerAddress } from '@utils/main_loop';
@@ -60,11 +60,10 @@ interface AppHeaderProps {
   setServerStatus: React.Dispatch<React.SetStateAction<'unchecked' | 'online' | 'offline'>>;
   setError: React.Dispatch<React.SetStateAction<string | null>>;
   authState?: AuthState;
-  onMenuClick: () => void;
-  shouldHighlightMenu?: boolean;
   isUsingObServer?: boolean;
   setIsUsingObServer?: (value: boolean) => void;
   getToken: TokenProvider;
+  onLogoClick?: () => void;
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({
@@ -72,14 +71,13 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   setServerStatus,
   setError,
   authState,
-  onMenuClick,
   isUsingObServer: externalIsUsingObServer,
   setIsUsingObServer: externalSetIsUsingObServer,
   getToken,
+  onLogoClick,
 }) => {
   // --- MODIFIED --- Default to the full, desired URL for the proxy.
   const [serverAddress, setServerAddress] = useState('http://localhost:3838');
-  const [pulseMenu, setPulseMenu] = useState(false);
   const [internalIsUsingObServer, setInternalIsUsingObServer] = useState(false);
   const [quotaInfo, setQuotaInfo] = useState<QuotaInfo>(null);
   const [isLoadingQuota, setIsLoadingQuota] = useState(false);
@@ -309,13 +307,6 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   }, [isUsingObServer, isAuthenticated, serverStatus]);
 
 
-  useEffect(() => {
-    setPulseMenu(true);
-    const timer = setTimeout(() => {
-      setPulseMenu(false);
-    }, 10000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const renderQuotaStatus = () => {
     if (isSessionExpired) {
@@ -362,54 +353,32 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <>
-      <style>
-        {`
-          @keyframes menu-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
-          }
-          .menu-pulse {
-            animation: menu-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            background-color: rgba(59, 130, 246, 0.1);
-          }
-        `}
-      </style>
 
-      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-dark-bg shadow-sm z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-dark-bg shadow-sm dark:border-b dark:border-gray-700 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             {/* Left side */}
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={onMenuClick}
-                className={`p-2 rounded-md ${pulseMenu ? 'menu-pulse relative' : 'hover:bg-gray-100 dark:hover:bg-dark-surface'}`}
-                aria-label="Open menu"
-              >
-                <Menu className="h-6 w-6 text-gray-700 dark:text-gray-200" />
-                {pulseMenu && (
-                  <span className="absolute top-0 right-0 flex h-3 w-3">
-                    <span className="animate-ping absolute h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                    <span className="relative rounded-full h-3 w-3 bg-blue-500"></span>
+            <div className="flex items-center space-x-3">
+              <img
+                src="/eye-logo-black.svg"
+                alt="Observer Logo"
+                className="h-8 w-8 cursor-pointer hover:opacity-80 dark:invert"
+                onClick={() => setIsPermissionsModalOpen(true)}
+                title="Initialize screen capture"
+              />
+              <div className="relative">
+                <h1 
+                  className="text-xl font-semibold text-gray-900 dark:text-dark-text cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={onLogoClick}
+                  title="Go to My Agents"
+                >
+                  Observer
+                </h1>
+                {isProUser && (
+                  <span className="absolute -top-1 -right-6 text-xs font-semibold text-purple-600 dark:text-purple-400">
+                    pro
                   </span>
                 )}
-              </button>
-              
-              <div className="flex items-center space-x-3">
-                <img
-                  src="/eye-logo-black.svg"
-                  alt="Observer Logo"
-                  className="h-8 w-8 cursor-pointer hover:opacity-80 dark:invert"
-                  onClick={() => setIsPermissionsModalOpen(true)}
-                  title="Initialize screen capture"
-                />
-                <div className="relative">
-                  <h1 className="text-xl font-semibold text-gray-900 dark:text-dark-text">Observer</h1>
-                  {isProUser && (
-                    <span className="absolute -top-1 -right-6 text-xs font-semibold text-purple-600 dark:text-purple-400">
-                      pro
-                    </span>
-                  )}
-                </div>
               </div>
             </div>
 
