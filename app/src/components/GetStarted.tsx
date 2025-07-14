@@ -25,15 +25,15 @@ const GetStarted: React.FC<GetStartedProps> = ({
   const serverUrl = port ? `${host}:${port}` : host;
   
   return (
-    <div className="p-4 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div className="container mx-auto max-w-6xl">
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Create Agent</h1>
+    <div className="p-4 bg-gray-50 dark:bg-gray-900 h-[calc(100vh-200px)] overflow-hidden">
+      <div className="container mx-auto max-w-6xl h-full flex flex-col">
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6 flex-shrink-0">Create Agent</h1>
         
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6 flex-1 min-h-0">
           {/* Main AI Builder */}
-          <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="lg:col-span-2 flex flex-col min-h-0">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mr-3">
                     <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -47,7 +47,7 @@ const GetStarted: React.FC<GetStartedProps> = ({
                 </div>
               </div>
               
-              <div className="p-6">
+              <div className="p-6 flex-1 min-h-0">
                 <ConversationalGenerator 
                   onAgentGenerated={onAgentGenerated} 
                   getToken={getToken}

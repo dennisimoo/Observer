@@ -175,7 +175,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
     return () => window.removeEventListener('refreshConversationalModels', handleRefresh);
   }, []);
 
-  // Smart auto-scroll: only scroll on new messages, not initial load
+  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     if (isInitialLoad) {
       // On initial load, mark as loaded but don't auto-scroll
@@ -183,14 +183,9 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
       return;
     }
 
-    // Only auto-scroll if user is already near the bottom (within 100px)
-    if (chatContainerRef.current && chatEndRef.current) {
-      const container = chatContainerRef.current;
-      const isNearBottom = container.scrollTop + container.clientHeight >= container.scrollHeight - 100;
-      
-      if (isNearBottom) {
-        chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
+    // Always auto-scroll to bottom when messages change
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isLoading]);
 
@@ -376,7 +371,7 @@ const ConversationalGenerator: React.FC<ConversationalGeneratorProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-[450px] bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col h-full bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
       {/* Experimental Alert for Local AI Agent Builder */}
       {showExperimentalAlert && (
         <div className="p-3 bg-orange-50 dark:bg-orange-900/20 border-b border-orange-200 dark:border-orange-700">
