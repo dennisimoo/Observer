@@ -47,25 +47,32 @@ function AppContent() {
   // Add a loading state to help debug white screen issues
   const [isAppLoading, setIsAppLoading] = useState(true);
 
-  // If Auth0 is disabled, create a mock auth object for local development.
-  // Otherwise, use the real useAuth0 hook.
-  const { 
-    isAuthenticated, 
-    user, 
-    loginWithRedirect, 
-    logout, 
-    isLoading,
-    getAccessTokenSilently
-  } = isAuthDisabled 
-    ? {
-        isAuthenticated: true,
-        user: { name: 'Local Dev User', email: 'dev@localhost' },
-        loginWithRedirect: () => Promise.resolve(),
-        logout: () => {},
-        isLoading: false,
-        getAccessTokenSilently: async () => 'mock_token'
-      } 
-    : useAuth0(); 
+  // Create the auth object based on whether auth is disabled
+  let isAuthenticated: boolean;
+  let user: any;
+  let loginWithRedirect: () => Promise<void>;
+  let logout: (options?: any) => void;
+  let isLoading: boolean;
+  let getAccessTokenSilently: (options?: any) => Promise<string>;
+
+  if (isAuthDisabled) {
+    // Mock auth values for local development
+    isAuthenticated = true;
+    user = { name: 'Local Dev User', email: 'dev@localhost' };
+    loginWithRedirect = () => Promise.resolve();
+    logout = (_options?: any) => {};
+    isLoading = false;
+    getAccessTokenSilently = async (_options?: any) => 'mock_token';
+  } else {
+    // Use real Auth0 hook
+    const auth0Data = useAuth0();
+    isAuthenticated = auth0Data.isAuthenticated;
+    user = auth0Data.user;
+    loginWithRedirect = auth0Data.loginWithRedirect;
+    logout = auth0Data.logout;
+    isLoading = auth0Data.isLoading;
+    getAccessTokenSilently = auth0Data.getAccessTokenSilently;
+  } 
 
   const [agents, setAgents] = useState<CompleteAgent[]>([]);
   const [agentCodes, setAgentCodes] = useState<Record<string, string>>({});
