@@ -17,15 +17,26 @@ const StartupDialog: React.FC<StartupDialogProps> = ({
 }) => {
   const handleObServerStart = () => {
     if (!isAuthenticated) {
+      // Save the choice even when redirecting to login
+      localStorage.setItem('observer-startup-completed', 'true');
+      localStorage.setItem('observer-server-choice', 'cloud');
+      if (setUseObServer) setUseObServer(true);
       if (onLogin) onLogin();
+      onDismiss();
     } else {
       if (setUseObServer) setUseObServer(true);
+      // Save the user's choice to localStorage
+      localStorage.setItem('observer-startup-completed', 'true');
+      localStorage.setItem('observer-server-choice', 'cloud');
       onDismiss();
     }
   };
 
   const handleSetupLocal = () => {
     if (setUseObServer) setUseObServer(false);
+    // Save the user's choice to localStorage
+    localStorage.setItem('observer-startup-completed', 'true');
+    localStorage.setItem('observer-server-choice', 'local');
     onDismiss();
   };
 

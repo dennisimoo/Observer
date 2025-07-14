@@ -167,6 +167,9 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       return;
     }
 
+    // Save the choice to localStorage
+    localStorage.setItem('observer-server-choice', newValue ? 'cloud' : 'local');
+
     // Just update the state. The useEffect will handle the rest.
     if (externalSetIsUsingObServer) {
       externalSetIsUsingObServer(newValue);

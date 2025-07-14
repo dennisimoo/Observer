@@ -77,7 +77,11 @@ function AppContent() {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isCreateMode, setIsCreateMode] = useState(false);
-  const [showStartupDialog, setShowStartupDialog] = useState(true);
+  const [showStartupDialog, setShowStartupDialog] = useState(() => {
+    // Check if user has completed startup before
+    const hasCompletedStartup = localStorage.getItem('observer-startup-completed');
+    return !hasCompletedStartup;
+  });
   const [showGlobalLogs, setShowGlobalLogs] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [schedulingAgentId, setSchedulingAgentId] = useState<string | null>(null);
@@ -85,7 +89,11 @@ function AppContent() {
   const [memoryAgentId, setMemoryAgentId] = useState<string | null>(null);
   const [flashingMemories, setFlashingMemories] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState('myAgents');
-  const [isUsingObServer, setIsUsingObServer] = useState(true);
+  const [isUsingObServer, setIsUsingObServer] = useState(() => {
+    // Check for saved server choice, default to cloud
+    const savedChoice = localStorage.getItem('observer-server-choice');
+    return savedChoice === 'local' ? false : true;
+  });
   const [isJupyterModalOpen, setIsJupyterModalOpen] = useState(false);
   const [isSimpleCreatorOpen, setIsSimpleCreatorOpen] = useState(false);
   const [stagedAgentConfig, setStagedAgentConfig] = useState<{ agent: CompleteAgent, code: string } | null>(null);
@@ -284,6 +292,13 @@ function AppContent() {
     setShowStartupDialog(false);
   };
 
+  // Function to reset startup preferences (can be called from settings)
+  const resetStartupPreferences = () => {
+    localStorage.removeItem('observer-startup-completed');
+    localStorage.removeItem('observer-server-choice');
+    setShowStartupDialog(true);
+  };
+
   const toggleAgent = async (id: string, isCurrentlyRunning: boolean): Promise<void> => {
     // If using Ob-Server and not logged in, trigger login instead of starting agent.
     if (isUsingObServer && !isAuthenticated) {
@@ -427,11 +442,6 @@ function AppContent() {
     }
   }, [isLoading, isAuthenticated]);
 
-  useEffect(() => {
-    if (serverStatus === 'offline') {
-      setShowStartupDialog(true);
-    }
-  }, [serverStatus]);
 
 
   // Show loading screen if app is still initializing
