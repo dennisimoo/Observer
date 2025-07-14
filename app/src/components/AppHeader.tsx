@@ -1,6 +1,6 @@
 // components/AppHeader.tsx
 import React, { useState, useEffect } from 'react';
-import { LogOut, ExternalLink, RefreshCw, Server } from 'lucide-react';
+import { LogOut, Server } from 'lucide-react';
 import ThemeToggle from '@components/ThemeToggle';
 import { checkOllamaServer } from '@utils/ollamaServer';
 import { setOllamaServerAddress } from '@utils/main_loop';

@@ -127,7 +127,7 @@ export const useEditAgentModalLogic = ({
       if (isCloud) {
         const hasGemini2 = r.models.find(m => m.name === 'gemini-2.0-flash-lite');
         if (!hasGemini2) {
-          modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...r.models];
+          modelsToUse = [{ name: 'gemini-2.0-flash-lite', parameterSize: 'N/A', multimodal: true }, ...r.models];
         }
       }
       

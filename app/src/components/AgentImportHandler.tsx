@@ -1,6 +1,6 @@
 // src/components/AgentImportHandler.tsx
 
-import { RotateCw, MessageSquare, Code, Sparkles } from 'lucide-react';
+import { RotateCw, Code, Sparkles } from 'lucide-react';
 
 interface AgentImportHandlerProps {
   isRefreshing: boolean;

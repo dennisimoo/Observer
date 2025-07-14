@@ -7,21 +7,33 @@ import '@/index.css';
 // Import the application entry point
 import App from './web/App';
 
-// Helper function to safely check for the Tauri environment
-function isTauri() {
-  return Boolean(
-    typeof window !== 'undefined' &&
-    (window as any).__TAURI__
-  );
-}
+// Tauri React component
+const TauriApp = () => (
+  <div className="h-screen overflow-hidden">
+    <App />
+  </div>
+);
 
-// For now, use the same App component for both web and desktop
-// TODO: Implement LauncherShell component for desktop when ready
-const RootComponent = App;
+// Web React component (your existing app)
+const WebApp = () => <App />;
+
+// Detect environment and render appropriate component
+const detectEnvironment = () => {
+  // Check if we're in a Tauri environment
+  if (typeof window !== 'undefined' && (window as any).__TAURI__) {
+    return <TauriApp />;
+  }
+  
+  // Default to web environment
+  return <WebApp />;
+};
+
+// Main render function
+const renderApp = () => detectEnvironment();
 
 // Render the chosen component
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RootComponent />
+    {renderApp()}
   </React.StrictMode>
 );

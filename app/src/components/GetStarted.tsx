@@ -1,6 +1,6 @@
 // src/components/GetStarted.tsx
 import React from 'react';
-import { Plus, Users, Sparkles, MessageSquare, Code } from 'lucide-react';
+import { Users, MessageSquare, Code } from 'lucide-react';
 import ConversationalGenerator from './ConversationalGenerator';
 import { CompleteAgent } from '@utils/agent_database';
 import { getOllamaServerAddress } from '@utils/main_loop';

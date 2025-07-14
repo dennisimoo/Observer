@@ -74,7 +74,7 @@ const GenerateAgentModal: React.FC<GenerateAgentModalProps> = ({
           if (isCloud) {
             const hasGemini2 = result.models.find(m => m.name === 'gemini-2.0-flash-lite');
             if (!hasGemini2) {
-              modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...result.models];
+              modelsToUse = [{ name: 'gemini-2.0-flash-lite', parameterSize: 'N/A', multimodal: true }, ...result.models];
             }
           }
           

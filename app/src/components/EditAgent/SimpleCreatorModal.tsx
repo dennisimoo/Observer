@@ -117,7 +117,7 @@ const SimpleCreatorModal: React.FC<SimpleCreatorModalProps> = ({ isOpen, onClose
         if (isCloud) {
           const hasGemini2 = modelsResponse.models.find(m => m.name === 'gemini-2.0-flash-lite');
           if (!hasGemini2) {
-            modelsToUse = [{ name: 'gemini-2.0-flash-lite', size: 0, multimodal: true }, ...modelsResponse.models];
+            modelsToUse = [{ name: 'gemini-2.0-flash-lite', parameterSize: 'N/A', multimodal: true }, ...modelsResponse.models];
           }
         }
         
