@@ -5,9 +5,9 @@ import { Monitor, Video, Mic } from 'lucide-react';
 import { StreamManager, StreamState } from '@utils/streamManager';
 
 const SensorIcon: React.FC<{ Icon: React.ElementType; isActive: boolean; label: string }> = ({ Icon, isActive, label }) => (
-  <div className={`flex items-center gap-1.5 transition-colors ${isActive ? 'text-green-400' : 'text-gray-500'}`} title={label}>
+  <div className={`flex items-center gap-1.5 transition-colors ${isActive ? 'text-green-400' : 'text-gray-400'}`} title={label}>
     <Icon className="w-4 h-4" />
-    <div className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`}></div>
+    <div className={`w-1.5 h-1.5 rounded-full transition-colors ${isActive ? 'bg-green-400 animate-pulse' : 'bg-gray-500'}`}></div>
   </div>
 );
 

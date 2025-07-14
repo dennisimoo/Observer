@@ -158,7 +158,7 @@ export default function RecordingsViewer() {
                     </div>
                 ))
             ) : (
-                <p className="text-center text-gray-500 dark:text-gray-400 py-8">
+                <p className="text-center text-gray-500 dark:text-gray-400">
                     No recordings found. Start an agent and use the recording tools to create one!
                 </p>
             )}

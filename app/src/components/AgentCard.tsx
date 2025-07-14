@@ -355,7 +355,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
       `}</style>
       
       <div className="p-5 pb-0 flex justify-between items-start">
-        <div className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center ${ isPythonAgent ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'}`}>
+        <div className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center ${ isPythonAgent ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300' : 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300'}`}>
           {isPythonAgent ? <><Terminal className="w-4 h-4 mr-2" /> Python</> : <><Code className="w-4 h-4 mr-2" /> JavaScript</>}
         </div>
         {/* Disable Start/Stop button if a quota error is present */}
@@ -397,15 +397,15 @@ const AgentCard: React.FC<AgentCardProps> = ({
       </div>
       
       <div>
-         <button onClick={() => setActivityExpanded(!activityExpanded)} className="w-full px-5 py-4 flex items-center border-t border-gray-100 hover:bg-gray-50 transition-colors">
-          <MessageCircle className="w-6 h-6 text-blue-500 mr-2" />
-          <span className="text-xl font-medium">Activity Log</span>
+         <button onClick={() => setActivityExpanded(!activityExpanded)} className="w-full px-5 py-4 flex items-center border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+          <MessageCircle className="w-6 h-6 text-blue-500" />
+          <span className="text-xl font-medium text-gray-800 dark:text-white">Activity Log</span>
           <div className="ml-auto">
             {activityExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
           </div>
         </button>
         {activityExpanded && (
-          <div className="border-t border-gray-100 p-4 bg-gray-50/50">
+          <div className="border-t border-gray-100 dark:border-gray-700 p-4 bg-gray-50/50 dark:bg-gray-800/50">
             <AgentLogViewer 
               agentId={agent.id}
               getToken={getToken}
@@ -574,8 +574,8 @@ const StaticAgentInfo: React.FC<{
   return (
     <>
       <div className="flex items-center mt-1">
-        <div className="w-3 h-3 rounded-full mr-2 bg-gray-400"></div>
-        <span className="text-sm text-gray-600">Inactive</span>
+        <div className="w-3 h-3 rounded-full mr-2 bg-gray-400 dark:bg-gray-500"></div>
+        <span className="text-sm text-gray-600 dark:text-gray-400">Inactive</span>
       </div>
       <p className="mt-2 text-gray-600">{props.agent.description}</p>
       
@@ -589,8 +589,8 @@ const StaticAgentInfo: React.FC<{
         {isAgentScheduled(props.agent.id) && <div className="px-3 py-1 bg-yellow-50 rounded-lg text-sm text-yellow-700">Scheduled: {getScheduledTime(props.agent.id)?.toLocaleString()}</div>}
       </div>
       <div className="mt-5 flex gap-3">
-        <button onClick={() => props.onEdit(props.agent.id)} className="px-5 py-2 rounded-lg flex items-center bg-gray-100 hover:bg-gray-200 text-gray-700"><Edit className="w-4 h-4 mr-2" /> Edit</button>
-        <button onClick={() => props.onDelete(props.agent.id)} className="px-5 py-2 rounded-lg flex items-center bg-red-50 hover:bg-red-100 text-red-600"><Trash2 className="w-4 h-4 mr-2" /> Delete</button>
+        <button onClick={() => props.onEdit(props.agent.id)} className="px-5 py-2 rounded-lg flex items-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"><Edit className="w-4 h-4 mr-2" /> Edit</button>
+        <button onClick={() => props.onDelete(props.agent.id)} className="px-5 py-2 rounded-lg flex items-center bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/40 text-red-600 dark:text-red-300"><Trash2 className="w-4 h-4 mr-2" /> Delete</button>
       </div>
     </>
   );

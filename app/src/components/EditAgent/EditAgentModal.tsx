@@ -91,28 +91,28 @@ interface AccordionProps {
 const Accordion: React.FC<AccordionProps> = ({ title, icon: Icon, children, rightContent }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-gray-200 rounded-lg bg-white shadow-sm overflow-hidden">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-sm overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex justify-between items-center p-4 text-left"
       >
         <div className="flex items-center">
-          <Icon className="h-5 w-5 mr-3 text-indigo-600" />
-          <h3 className="text-lg font-semibold text-indigo-700">{title}</h3>
+          <Icon className="h-5 w-5 mr-3 text-indigo-600 dark:text-indigo-400" />
+          <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-300">{title}</h3>
         </div>
         <div className="flex items-center space-x-4">
             {rightContent && <div onClick={e => e.stopPropagation()}>{rightContent}</div>}
             {isOpen ? <ChevronUp className="h-5 w-5 text-gray-500" /> : <ChevronDown className="h-5 w-5 text-gray-500" />}
         </div>
       </button>
-      {isOpen && <div className="p-4 border-t border-gray-200">{children}</div>}
+      {isOpen && <div className="p-4 border-t border-gray-200 dark:border-gray-700">{children}</div>}
     </div>
   );
 };
 
 // --- NEW HELPER COMPONENT: Sensor Button ---
 const SensorButton = ({ icon: Icon, label, colorClass, onClick }: { icon: React.ElementType, label: string, colorClass?: string, onClick: () => void }) => (
-  <button onClick={onClick} className={`flex-grow md:flex-grow-0 flex items-center justify-center space-x-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors ${colorClass || 'text-gray-700'}`}>
+  <button onClick={onClick} className={`flex-grow md:flex-grow-0 flex items-center justify-center space-x-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg transition-colors ${colorClass || 'text-gray-700 dark:text-gray-200'}`}>
     <Icon className="h-5 w-5" />
     <span className="text-sm font-medium">{label}</span>
   </button>

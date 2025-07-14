@@ -11,7 +11,7 @@ import { Logger } from '@utils/logging';
 const PermissionButton: React.FC<{ onClick: () => void; Icon: React.ElementType; title: string }> = ({ onClick, Icon, title }) => (
   <button
     onClick={onClick}
-    className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors w-full h-full text-gray-700 border border-gray-200"
+    className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors w-full h-full text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600"
   >
     <Icon className="w-8 h-8" />
     <span className="font-semibold text-center">{title}</span>
@@ -22,7 +22,7 @@ const PermissionButton: React.FC<{ onClick: () => void; Icon: React.ElementType;
  * A small "pill" indicator that shows the live status of a specific sensor.
  */
 const SensorStatusIndicator: React.FC<{ isActive: boolean; Icon: React.ElementType; label: string; color: string }> = ({ isActive, Icon, label, color }) => (
-  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isActive ? color : 'bg-gray-100 text-gray-500'}`}>
+  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isActive ? color : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'}`}>
     <Icon className={`w-4 h-4 transition-transform ${isActive ? 'scale-110' : ''}`} />
     {label}
   </div>

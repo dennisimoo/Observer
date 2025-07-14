@@ -163,7 +163,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
             )}
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex justify-between rounded-b-lg">
+          <div className="dark:bg-gray-700 px-6 py-4 flex justify-between rounded-b-lg">
             {jupyterStatus === 'connected' && (
               <div className="flex items-center text-sm text-green-600">
                 <Check size={16} className="mr-1" />
@@ -220,7 +220,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
               <div className="space-y-4">
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 dark:text-blue-200 flex items-center justify-center flex-shrink-0 text-xs">
                       1
                     </div>
                     <h3 className="font-medium text-gray-900 dark:text-white text-sm">Install Jupyter Server</h3>
@@ -232,7 +232,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
 
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 dark:text-blue-200 flex items-center justify-center flex-shrink-0 text-xs">
                       2
                     </div>
                     <h3 className="font-medium text-gray-900 dark:text-white text-sm">Start Jupyter Server</h3>
@@ -247,7 +247,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
 
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 dark:text-blue-200 flex items-center justify-center flex-shrink-0 text-xs">
                       3
                     </div>
                     <h3 className="font-medium text-gray-900 dark:text-white text-sm">Find Your Token</h3>
@@ -262,7 +262,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
 
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 dark:text-blue-200 flex items-center justify-center flex-shrink-0 text-xs">
                       4
                     </div>
                     <h3 className="font-medium text-gray-900 dark:text-white text-sm">Enter Configuration</h3>
@@ -282,7 +282,7 @@ const JupyterServerModal: React.FC<JupyterServerModalProps> = ({ isOpen, onClose
 
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center flex-shrink-0 text-xs">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-500 dark:text-blue-200 flex items-center justify-center flex-shrink-0 text-xs">
                       5
                     </div>
                     <h3 className="font-medium text-gray-900 dark:text-white text-sm">Test Connection</h3>
