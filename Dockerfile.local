@@ -1,0 +1,29 @@
+# Dockerfile.local - For local development with disabled auth
+FROM node:20-alpine
+
+# Install dependencies
+RUN apk add --no-cache bash
+
+# Set working directory
+WORKDIR /app
+
+# Copy the entire project
+COPY . .
+
+# Set environment variables for disabled auth
+ENV VITE_DISABLE_AUTH=true
+ENV NODE_ENV=development
+
+# Install dependencies
+WORKDIR /app/app
+RUN npm install
+
+# Go back to root and make run.sh executable
+WORKDIR /app
+RUN chmod +x run.sh
+
+# Expose the port that run.sh uses
+EXPOSE 8080
+
+# Run the application using the run.sh script
+CMD ["./run.sh"] 

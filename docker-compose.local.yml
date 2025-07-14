@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  observer_local:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: observer_local_dev
+    ports:
+      - "8080:8080"    # Web UI served by run.sh
+    environment:
+      - VITE_DISABLE_AUTH=true
+      - NODE_ENV=development
+    restart: unless-stopped
+    volumes:
+      - .:/app  # Mount source code for development
+      - /app/app/node_modules  # Exclude node_modules from mount 
