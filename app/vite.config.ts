@@ -16,12 +16,16 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', 
     port: 3001, // Different from desktop and website
-    allowedHosts: 'all', // Allow any host to access the dev server
   },
   preview: {
     host: '0.0.0.0',
     port: 8080,
-    allowedHosts: 'all', // Allow any host to access the preview server
+    allowedHosts: [
+      'localhost',
+      'x44kscwks8o0sss84wsww8kg.192.9.234.21.sslip.io',
+      '.sslip.io',
+      'all'
+    ],
   },
   resolve: {
     alias: {
