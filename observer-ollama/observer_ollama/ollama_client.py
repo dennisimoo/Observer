@@ -76,7 +76,7 @@ def forward_to_ollama(method, path, headers, body):
                     if not chunk:
                         break
                     yield chunk
-        return (e.code, e.headers, error_iterator())
+        return (e.code, list(e.headers.items()), error_iterator())
 
     except socket.timeout:
         logger.error(f"Request to {target_url} timed out")
