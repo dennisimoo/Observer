@@ -39,66 +39,40 @@ import { ObServerTab } from '@components/ObServerTab';
 import { UpgradeModal } from '@components/UpgradeModal';
 
 
-// Component for when Auth0 is enabled
-function AuthEnabledAppContent() {
-  const { 
-    isAuthenticated, 
-    user, 
-    loginWithRedirect, 
-    logout, 
-    isLoading,
-    getAccessTokenSilently
-  } = useAuth0();
-
-  return <AppContentCore 
-    isAuthenticated={isAuthenticated}
-    user={user}
-    loginWithRedirect={loginWithRedirect}
-    logout={logout}
-    isLoading={isLoading}
-    getAccessTokenSilently={getAccessTokenSilently}
-  />;
-}
-
-// Component for when Auth0 is disabled
-function AuthDisabledAppContent() {
-  const mockAuth = {
-    isAuthenticated: true,
-    user: { name: 'Local Dev User', email: 'dev@localhost' },
-    loginWithRedirect: () => Promise.resolve(),
-    logout: (_options?: any) => {},
-    isLoading: false,
-    getAccessTokenSilently: async (_options?: any) => 'mock_token'
-  };
-
-  return <AppContentCore 
-    isAuthenticated={mockAuth.isAuthenticated}
-    user={mockAuth.user}
-    loginWithRedirect={mockAuth.loginWithRedirect}
-    logout={mockAuth.logout}
-    isLoading={mockAuth.isLoading}
-    getAccessTokenSilently={mockAuth.getAccessTokenSilently}
-  />;
-}
-
-// Main app logic component that accepts auth props
-function AppContentCore({ 
-  isAuthenticated, 
-  user, 
-  loginWithRedirect, 
-  logout, 
-  isLoading, 
-  getAccessTokenSilently 
-}: {
-  isAuthenticated: boolean;
-  user: any;
-  loginWithRedirect: () => Promise<void>;
-  logout: (options?: any) => void;
-  isLoading: boolean;
-  getAccessTokenSilently: (options?: any) => Promise<string>;
-}) {
+function AppContent() {
+  // Check our environment variable to see if Auth0 should be disabled
+  const isAuthDisabled = import.meta.env.VITE_DISABLE_AUTH === 'true';
+  Logger.debug('isAuthDisabled', `is it? lets see ${isAuthDisabled}`);
+  
   // Add a loading state to help debug white screen issues
-  const [isAppLoading, setIsAppLoading] = useState(true); 
+  const [isAppLoading, setIsAppLoading] = useState(true);
+
+  // Create the auth object based on whether auth is disabled
+  let isAuthenticated: boolean;
+  let user: any;
+  let loginWithRedirect: () => Promise<void>;
+  let logout: (options?: any) => void;
+  let isLoading: boolean;
+  let getAccessTokenSilently: (options?: any) => Promise<string>;
+
+  if (isAuthDisabled) {
+    // Mock auth values for local development
+    isAuthenticated = true;
+    user = { name: 'Local Dev User', email: 'dev@localhost' };
+    loginWithRedirect = () => Promise.resolve();
+    logout = (_options?: any) => {};
+    isLoading = false;
+    getAccessTokenSilently = async (_options?: any) => 'mock_token';
+  } else {
+    // Use real Auth0 hook
+    const auth0Data = useAuth0();
+    isAuthenticated = auth0Data.isAuthenticated;
+    user = auth0Data.user;
+    loginWithRedirect = auth0Data.loginWithRedirect;
+    logout = auth0Data.logout;
+    isLoading = auth0Data.isLoading;
+    getAccessTokenSilently = auth0Data.getAccessTokenSilently;
+  } 
 
   const [agents, setAgents] = useState<CompleteAgent[]>([]);
   const [agentCodes, setAgentCodes] = useState<Record<string, string>>({});
@@ -488,7 +462,7 @@ function AppContentCore({
 
 
   // Show loading screen if app is still initializing
-  if (isAppLoading || isLoading) {
+  if (isAppLoading || (isLoading && !isAuthDisabled)) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
@@ -755,23 +729,12 @@ function AppContentCore({
   );
 }
 
-// Main content selector based on auth status
-function AppContent() {
-  const isAuthDisabled = import.meta.env.VITE_DISABLE_AUTH === 'true';
-  
-  if (isAuthDisabled) {
-    return <AuthDisabledAppContent />;
-  } else {
-    return <AuthEnabledAppContent />;
-  }
-}
-
 export function App() {
   const isAuthDisabled = import.meta.env.VITE_DISABLE_AUTH === 'true';
 
   if (isAuthDisabled) {
     Logger.info('isAuthDisabled',"Auth0 is disabled for local development.");
-    // Completely bypass Auth0Provider when auth is disabled
+    // Even in dev mode, we need the router for consistency
     return (
       <BrowserRouter>
         <Routes>
