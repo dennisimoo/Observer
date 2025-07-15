@@ -29,6 +29,24 @@ Creating your own Observer AI agent is simple, and consist of three things:
 
 ## Quick Start
 
+**To get Observer running immediately:**
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Roy3838/Observer
+   cd Observer
+   ```
+
+2. Make the start script executable and run it:
+   ```bash
+   chmod +x start.sh
+   ./start.sh
+   ```
+
+This will automatically set up and launch Observer with all dependencies.
+
+**To create your first agent:**
+
 1. Navigate to the Agent Dashboard and click "Create New Agent"
 2. Fill in the "Configuration" tab with basic details (name, description, model, loop interval)
 3. Give your model a system prompt and Sensors! The current Sensors that exist are:
