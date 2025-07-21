@@ -14,6 +14,7 @@ interface StartupDialogProps {
 
 // Define the key for consistency, just as in your AppHeader
 const LOCAL_STORAGE_KEY = 'observer_local_server_address';
+const SERVER_CHOICE_KEY = 'observer_server_choice';
 const DEFAULT_SERVER_ADDRESS = 'http://localhost:3838';
 
 const StartupDialog: React.FC<StartupDialogProps> = ({
@@ -29,6 +30,14 @@ const StartupDialog: React.FC<StartupDialogProps> = ({
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
+    const savedChoice = localStorage.getItem(SERVER_CHOICE_KEY);
+    if (savedChoice) {
+      const useObServer = savedChoice === 'cloud';
+      if (setUseObServer) setUseObServer(useObServer);
+      onDismiss();
+      return;
+    }
+
     if (hostingContext === 'self-hosted' || hostingContext === 'tauri') {
       const checkLocalModels = async () => {
         try {
@@ -60,9 +69,10 @@ const StartupDialog: React.FC<StartupDialogProps> = ({
     } else {
         setIsCheckingModels(false);
     }
-  }, [hostingContext]);
+  }, [hostingContext, onDismiss, setUseObServer]);
 
   const handleObServerStart = () => {
+    localStorage.setItem(SERVER_CHOICE_KEY, 'cloud');
     if (!isAuthenticated) {
       if (onLogin) onLogin();
     } else {
@@ -77,12 +87,14 @@ const StartupDialog: React.FC<StartupDialogProps> = ({
     } else if (hasNoModels) {
       setView('no-models');
     } else {
+      localStorage.setItem(SERVER_CHOICE_KEY, 'local');
       if (setUseObServer) setUseObServer(false);
       onDismiss();
     }
   };
   
   const handleProceedWithLocal = () => {
+    localStorage.setItem(SERVER_CHOICE_KEY, 'local');
     if (hasNoModels) {
         setView('no-models');
     } else {
@@ -96,6 +108,7 @@ const StartupDialog: React.FC<StartupDialogProps> = ({
   };
 
   const handleTerminalClose = () => {
+    localStorage.setItem(SERVER_CHOICE_KEY, 'local');
     setIsTerminalOpen(false);
     if (setUseObServer) setUseObServer(false);
     onDismiss();
