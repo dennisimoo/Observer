@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --dark-bg: #1a1a1a;
+    --dark-surface: #2d2d2d;
+    --dark-text: #ffffff;
+  }
+  
+  .dark {
+    --tw-bg-opacity: 1;
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+  }
+}
+
+@layer utilities {
+  .dark-bg {
+    background-color: var(--dark-bg);
+  }
+  
+  .dark-surface {
+    background-color: var(--dark-surface);
+  }
+  
+  .dark-text {
+    color: var(--dark-text);
+  }
+}

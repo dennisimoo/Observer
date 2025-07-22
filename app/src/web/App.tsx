@@ -28,6 +28,7 @@ import AvailableModels from '@components/AvailableModels';
 import CommunityTab from '@components/CommunityTab';
 import GetStarted from '@components/GetStarted';
 import JupyterServerModal from '@components/JupyterServerModal';
+import { themeManager } from '@utils/theme';
 import { generateAgentFromSimpleConfig } from '@utils/agentTemplateManager';
 import SimpleCreatorModal from '@components/EditAgent/SimpleCreatorModal';
 import ConversationalGeneratorModal from '@components/ConversationalGeneratorModal';
@@ -86,6 +87,7 @@ function AppContent() {
   const [stagedAgentConfig, setStagedAgentConfig] = useState<{ agent: CompleteAgent, code: string } | null>(null);
   const [isConversationalModalOpen, setIsConversationalModalOpen] = useState(false);
   const [hasCompletedStartupCheck, setHasCompletedStartupCheck] = useState(false);
+
 
   // --- NEW STATE FOR QUOTA ERRORS AND MODAL ---
   const [agentsWithQuotaError, setAgentsWithQuotaError] = useState<Set<string>>(new Set());
@@ -399,6 +401,8 @@ function AppContent() {
 
   useEffect(() => {
     Logger.info('APP', 'Application starting');
+    // Initialize theme manager
+    themeManager.getTheme();
     fetchAgents();
 
     if (isAuthenticated) {
@@ -456,7 +460,7 @@ function AppContent() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg">
       <style>
         {`
           @keyframes memory-flash {

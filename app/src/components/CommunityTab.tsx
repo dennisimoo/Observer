@@ -440,11 +440,11 @@ const CommunityTab: React.FC = () => {
   return (
     <div className="mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Community Agents</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Community Agents</h2>
         <div className="flex items-center space-x-2">
           <button 
             onClick={fetchAgents}
-            className="flex items-center space-x-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200"
+            className="flex items-center space-x-2 px-3 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 rounded-md hover:bg-blue-200 dark:hover:bg-blue-900/40"
             disabled={isLoadingAgents}
           >
             <RefreshCw className={`h-4 w-4 ${isLoadingAgents ? 'animate-spin' : ''}`} />
@@ -453,7 +453,7 @@ const CommunityTab: React.FC = () => {
           
           <button
             onClick={handleUploadClick}
-            className="flex items-center space-x-2 px-3 py-2 bg-green-100 text-green-700 rounded-md hover:bg-green-200"
+            className="flex items-center space-x-2 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-md hover:bg-green-200 dark:hover:bg-green-900/40"
           >
             <Upload className="h-4 w-4" />
             <span>Upload Agent</span>
@@ -471,7 +471,7 @@ const CommunityTab: React.FC = () => {
       )}
       
       {error && (
-        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
+        <div className="mb-4 p-4 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-md">
           {error}
         </div>
       )}
@@ -481,30 +481,30 @@ const CommunityTab: React.FC = () => {
           <div className="inline-block animate-spin mr-2">
             <RefreshCw className="h-6 w-6 text-blue-500" />
           </div>
-          <span>Loading community agents...</span>
+          <span className="text-gray-700 dark:text-gray-300">Loading community agents...</span>
         </div>
       ) : agents.length === 0 ? (
-        <div className="text-center p-8 bg-gray-50 rounded-md">
-          <p className="text-gray-500">No community agents available</p>
+        <div className="text-center p-8 bg-gray-50 dark:bg-gray-800 rounded-md">
+          <p className="text-gray-500 dark:text-gray-400">No community agents available</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {agents.map(agent => (
-            <div key={agent.id} className="bg-white rounded-lg shadow-md p-4">
+            <div key={agent.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">{agent.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{agent.name}</h3>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => viewDetails(agent)}
-                    className="p-2 rounded-md hover:bg-gray-100"
+                    className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                     title="View details"
                   >
-                    <Info className="h-5 w-5" />
+                    <Info className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                   </button>
                   {isAuthorOfAgent(agent) && (
                     <button
                       onClick={() => handleEditClick(agent)}
-                      className="p-2 rounded-md hover:bg-green-100 text-green-600"
+                      className="p-2 rounded-md hover:bg-green-100 dark:hover:bg-green-900/20 text-green-600 dark:text-green-400"
                       title="Edit your agent"
                     >
                       <Edit className="h-5 w-5" />
@@ -512,7 +512,7 @@ const CommunityTab: React.FC = () => {
                   )}
                   <button
                     onClick={() => handleImport(agent)}
-                    className="p-2 rounded-md hover:bg-blue-100 text-blue-600"
+                    className="p-2 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                     title="Import agent"
                     disabled={importing === agent.id}
                   >
@@ -521,23 +521,23 @@ const CommunityTab: React.FC = () => {
                 </div>
               </div>
               
-              <span className="inline-block px-2 py-1 rounded-full text-sm bg-blue-100 text-blue-700">
+              <span className="inline-block px-2 py-1 rounded-full text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
                 Community
               </span>
               
               {isAuthorOfAgent(agent) && (
-                <span className="inline-block ml-2 px-2 py-1 rounded-full text-sm bg-green-100 text-green-700">
+                <span className="inline-block ml-2 px-2 py-1 rounded-full text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
                   Your Agent
                 </span>
               )}
               
               <div className="mt-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Model: {agent.model_name}
                 </p>
-                <p className="mt-2 text-sm">{agent.description}</p>
+                <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">{agent.description}</p>
                 {agent.author && (
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     Contributed by: {agent.author}
                     {agent.date_added && (
                       <span> • {new Date(agent.date_added).toLocaleDateString()}</span>
@@ -558,7 +558,7 @@ const CommunityTab: React.FC = () => {
                   {importing === agent.id ? '⏳ Importing...' : '⬇️ Import'}
                 </button>
 
-                <div className="text-sm bg-gray-100 px-2 py-1 rounded">
+                <div className="text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded">
                   {agent.loop_interval_seconds}s
                 </div>
               </div>

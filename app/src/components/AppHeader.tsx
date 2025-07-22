@@ -6,6 +6,7 @@ import { setOllamaServerAddress } from '@utils/main_loop';
 import { Logger } from '@utils/logging';
 import SharingPermissionsModal from './SharingPermissionsModal';
 import ConnectionSettingsModal from './ConnectionSettingsModal';
+import ThemeToggle from './ThemeToggle';
 import type { TokenProvider } from '@utils/main_loop';
 
 // --- NEW HELPER FUNCTION ---
@@ -357,7 +358,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+      <header className="fixed top-0 left-0 right-0 bg-white dark:bg-dark-bg shadow-md z-50">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 py-3 sm:py-4">
           <div className="flex justify-between items-center">
             {/* Left side */}
@@ -365,14 +366,14 @@ const AppHeader: React.FC<AppHeaderProps> = ({
               <img
                 src="/eye-logo-black.svg"
                 alt="Observer Logo"
-                className="h-8 w-8 cursor-pointer hover:opacity-80"
+                className="h-8 w-8 cursor-pointer hover:opacity-80 dark:invert"
                 onClick={() => setIsPermissionsModalOpen(true)}
                 title="Initialize screen capture"
               />
               {/* Updated Logo with conditional "pro" badge */}
               <div className="relative hidden md:block">
               {/* FIX: Wrap the text in an <a> tag instead of putting href on <h1> */}
-              <a href="https://observer-ai.com" target="_blank" rel="noopener noreferrer" className="text-xl font-semibold">
+              <a href="https://observer-ai.com" target="_blank" rel="noopener noreferrer" className="text-xl font-semibold text-gray-900 dark:text-dark-text">
                 <h1>Observer</h1>
               </a>
               {isProUser && (
@@ -391,7 +392,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 {/* Ob-Server Toggle */}
                 <div className="flex flex-col items-center">
                   <div className="flex items-center space-x-1 sm:space-x-2">
-                    <span className="text-sm text-gray-600 hidden md:inline">Ob-Server</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300 hidden md:inline">Ob-Server</span>
                     <button
                       className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none ${
                         isUsingObServer ? 'bg-blue-500' : 'bg-slate-700'
@@ -431,8 +432,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                   onChange={handleAddressInputChange}
                   onBlur={handleAddressInputBlur} // Apply formatting when user is done.
                   placeholder="http://localhost:11434" // Updated placeholder to reflect default
-                  className={`px-2 sm:px-3 py-2 border rounded-md text-sm
-                              ${isUsingObServer ? 'bg-gray-100 opacity-70' : ''}
+                  className={`px-2 sm:px-3 py-2 border rounded-md text-sm text-gray-900 dark:text-gray-100
+                              ${isUsingObServer ? 'bg-gray-100 dark:bg-gray-700 opacity-70' : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600'}
                               w-32 sm:w-32 md:w-32 lg:w-auto`}
                   disabled={isUsingObServer}
                 />
@@ -468,10 +469,10 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                     href={getServerUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1.5 ml-1 sm:ml-2 p-2 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors duration-200 group"
+                    className="flex items-center space-x-1.5 ml-1 sm:ml-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 group"
                     title={`Check ${serverAddress} status in a new tab`}
                   >
-                    <span className="text-sm text-gray-700 hidden lg:inline">Check Server</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-200 hidden lg:inline">Check Server</span>
                     <ExternalLink className="h-4 w-4 text-gray-500 group-hover:text-blue-600 transition-colors" />
                   </a>
                 )}
@@ -487,11 +488,14 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 {/* Settings Button */}
                 <button
                     onClick={() => setIsSettingsModalOpen(true)}
-                    className="p-2 rounded-md hover:bg-gray-100"
+                    className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                     aria-label="Open connection settings"
                 >
-                    <Server className="h-5 w-5 text-gray-600" />
+                    <Server className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                 </button>
+
+                {/* Theme Toggle */}
+                <ThemeToggle />
               </div>
 
               {/* Auth Section */}
@@ -501,12 +505,12 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                     <div className="text-sm px-2 sm:px-3 py-2 bg-gray-100 rounded md:text-base md:px-4">Loading...</div>
                   ) : isAuthenticated ? (
                     <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-3">
-                      <span className="text-sm text-gray-700 hidden md:inline">
+                      <span className="text-sm text-gray-700 dark:text-gray-200 hidden md:inline">
                         {user?.name || user?.email || 'User'}
                       </span>
                       <button
                         onClick={handleLogout}
-                        className="bg-gray-200 text-gray-700 rounded hover:bg-gray-300 flex items-center justify-center p-2"
+                        className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 flex items-center justify-center p-2"
                         aria-label="Logout"
                       >
                       <LogOut className="h-5 w-5" />
